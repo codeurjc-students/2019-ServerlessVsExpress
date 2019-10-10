@@ -30,22 +30,22 @@ After doing this, a window should pop up from our default browser, but if it doe
 #### GET requests
 1. We can ask our API to **get all the users** existing in our database using the following format in our request:
 
-    **Method**: GET
-    **Route:** http://localhost:3000/users
-    **Body parameters:** none
+    **Method**: GET <br/>
+    **Route:** http://localhost:3000/users <br/>
+    **Body parameters:** none <br/>
 
 2. We are also able to **get one user by username** using the following format in our request:
 
-    **Method**: GET
-    **Route:** http://localhost:3000/user/:username
-    **Body parameters:** none
+    **Method**: GET <br/>
+    **Route:** http://localhost:3000/user/:username <br/>
+    **Body parameters:** none <br/>
 
 #### POST requests
 1. If you would like to **create a new user**, you can do it with this format:
 
-    **Method**: POST
-    **Route:** http://localhost:3000/user
-    **Body parameters:**
+    **Method**: POST <br/>
+    **Route:** http://localhost:3000/user <br/>
+    **Body parameters:** <br/>
     ```
     {
         "username": "exampleusername",
@@ -58,9 +58,9 @@ After doing this, a window should pop up from our default browser, but if it doe
 #### PUT requests
 1. You might want to **update an user**. You can do it this way:
 
-    **Method**: PUT
-    **Route:** http://localhost:3000/user
-    **Body parameters:**
+    **Method**: PUT <br/>
+    **Route:** http://localhost:3000/user <br/>
+    **Body parameters:** <br/>
     ```
     {
         "username": "exampleusername",
@@ -73,9 +73,9 @@ After doing this, a window should pop up from our default browser, but if it doe
 #### DELETE requests
 1. Of course, we also need a way to **delete an user**. Use the following format to achieve this:
 
-    **Method**: DELETE
-    **Route:** http://localhost:3000/user
-    **Body parameters:**
+    **Method**: DELETE <br/>
+    **Route:** http://localhost:3000/user <br/>
+    **Body parameters:** <br/>
     ```
     {
         "username": "exampleusername"
