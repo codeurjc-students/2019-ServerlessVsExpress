@@ -1,0 +1,34 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  usersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: index.usersHandler
+      CodeUri: s3://franrobles-bucket/9d8b49f35670c2f1d64bf50cb60e5aac
+      Events:
+        lambdaGetAllUsers:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: GET
+        lambdaAddUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: POST
+        lambdaGetUser:
+          Type: Api
+          Properties:
+            Path: /user/{username}
+            Method: GET
+        lambdaUpdateUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: PUT
+        lambdaDeleteUser:
+          Type: Api
+          Properties:
+            Path: /user
+            Method: DELETE

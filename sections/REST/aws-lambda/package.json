@@ -1,0 +1,8 @@
+{
+  "name": "aws-api",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "uuid": "^3.3.3"
+  }
+}

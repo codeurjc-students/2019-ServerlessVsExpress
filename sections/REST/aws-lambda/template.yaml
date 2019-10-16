@@ -1,0 +1,42 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  usersFunction:
+    # This resource creates a Lambda function.
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      # This function uses the Nodejs v8.10 runtime.
+      Runtime: nodejs8.10
+      # This is the Lambda function's handler.
+      Handler: index.usersHandler
+      # The location of the Lambda function code.
+      CodeUri: ./src
+      # Event sources to attach to this function. In this case, we are attaching
+      # multiple API Gateway endpoints to the Lambda function. The function is
+      # called when a HTTP request is made to the API Gateway endpoint.
+      Events:
+        lambdaGetAllUsers:
+            # Define an API Gateway endpoint that responds to HTTP GET at /users
+            Type: Api
+            Properties:
+                Path: /users
+                Method: GET
+        lambdaAddUser:
+            Type: Api
+            Properties:
+                Path: /user
+                Method: POST
+        lambdaGetUser:
+            Type: Api
+            Properties:
+                Path: /user/{username}
+                Method: GET
+        lambdaUpdateUser:
+            Type: Api
+            Properties:
+                Path: /user
+                Method: PUT
+        lambdaDeleteUser:
+            Type: Api
+            Properties:
+                Path: /user
+                Method: DELETE
