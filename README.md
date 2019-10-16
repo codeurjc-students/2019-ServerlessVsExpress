@@ -1,4 +1,4 @@
-# 2019-ServerlessVsExpress
+# 2019-ServerlessVsExpress [![GitHub license](https://img.shields.io/github/license/codeurjc-students/2019-ServerlessVsExpress)](https://github.com/codeurjc-students/2019-ServerlessVsExpress/blob/master/LICENSE)
 Comparative between serverless stacks (AWS Lambda) and Express in Node.js to create full fledged CRUD Web applications
 
 # Development process
