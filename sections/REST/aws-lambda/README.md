@@ -1,21 +1,21 @@
-## Documentation of this example REST API
+## Documentation of this example REST API (AWS Lambda - AWS API Gateway)
 * This API provides the common methods to manage data. In this case, we can manage users.
 
 ### Requirements
-- Nodejs [Download](https://nodejs.org/es/download/)
-- A REST consumer app like POSTMAN [Download](https://www.getpostman.com/downloads/)
-- AWS SAM CLI (You will need to have an AWS account). Follow this instructions to install it: [Instructions](https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+- **Nodejs** [Download](https://nodejs.org/es/download/)
+- A REST consumer app like **POSTMAN** [Download](https://www.getpostman.com/downloads/)
+- **AWS SAM CLI** (You will need to have an **AWS account**). Follow this instructions to install it: [Instructions](https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 
 ### Installation
 1. Create a folder wherever you want the project to be and go inside it.
 
-2. Go to console and begin in the previous folder route, write the following command to clone this repository (you can download it manually too):
+2. Go to console and, in the previous folder route, write the following command to clone this repository (you can download it manually too):
 
     ```
     git clone https://github.com/codeurjc-students/2019-ServerlessVsExpress.git
     ```
 
-3. From the console, navigate to the folder "sections/REST/aws-lambda".
+3. From the console, navigate to the folder **"sections/REST/aws-lambda"**.
 
 4. To install the necessary dependencies for this project, write:
     ```
@@ -23,31 +23,31 @@
     ```
     At this point, we should have express modules installed automatically.
 
-5. Now that you installed the modules required for this app (just uuid, in this case), we will need to create an AWS S3 bucket.
+5. Now that you installed the modules required for this app (just **"uuid"**, in this case, to use unique ids), we will need to create an **AWS S3 bucket**.
 
-    If you have read the requirements of this project and have installed AWS SAM CLI, you will also be able to use AWS CLI. To create the bucket, use this command:
+    If you have read the requirements of this project and have installed **AWS SAM CLI**, you will also be able to use **AWS CLI**. To create the bucket, use this command:
     ```
     aws s3api create-bucket --bucket my-bucket --region eu-west-3
     ```
-    With this command, we have created a bucket named "my-bucket" in the region "eu-west-3". It's important to keep in mind the region you have chosen because you'll need to use the same region if you're going to use other AWS services(i.e. a DynamoDB database) to make it work.
+    With this command, we have created a **bucket named "my-bucket"** in the **region "eu-west-3"**. It's important to keep in mind the region you have chosen because you'll need to use the same region if you're going to use other AWS services(i.e. **DynamoDB database**) to make it work.
 
-6. Having created a AWS S3 bucket where our files will be deployed, we need to package our SAM template (this needs to be done before deploying). We can achieve this step by writing this command:
+6. Having created an AWS S3 bucket where our files will be deployed, we need to **package our SAM template** (this needs to be done before deploying). We can achieve this step by writing this command:
     ```
     sam package --template-file template.yaml --s3-bucket my-bucket --output-template-file packaged-template.yaml
     ```
 
-7. The last step to begin using this Api is the deploy. We must deploy our packaged files to a stack. To do it, just type the following command:
+7. The last step to begin using this API is the **deploy**. We must deploy our packaged files to a **stack**. To do it, just type the following command:
     ```
     sam deploy --template-file packaged-template.yaml --stack-name mystack --capabilities CAPABILITY_IAM
     ```
-    The stack is also really important because it will be where all our services exist, and will allow us to see how everything is connected and even use Amazon CloudWatch logs to check if there has been any error.
+    The stack is also really important because it will be where all our services exist, and will allow us to see **how everything is connected**. You can even use **Amazon CloudWatch** logs to check if there has been any error in one of your lambda functions.
 
-** Steps from 5 to 7 will be reflected in AWS console. You just need to login to the AWS console and search for them in the "Services" tab. **
+**Steps from 5 to 7 will be reflected in AWS console. You just need to login to the AWS console and search for them in the "Services" tab.**
 
 
 ### Use
 
-To see the route to make the api requests, we first need to go to AWS console in the browser, and then search for ** Services -> API Gateway -> Select your stack name (in this case, mystack) -> Stages -> Open the Prod or Stage arrow**. There, we need to copy the ** INVOKE url **, which will be something similar to this: https://xxxxxxx.execute-api.eu-west-3.amazonaws.com/Prod
+To see the route to make the api requests, we first need to go to AWS console in the browser, and then search for **Services -> API Gateway -> Select your stack name (in this case, mystack) -> Stages -> Open the Prod or Stage arrow**. There, we need to copy the **INVOKE url**, which will be something similar to this: https://xxxxxxx.execute-api.eu-west-3.amazonaws.com/Prod
 
 
 #### GET requests
