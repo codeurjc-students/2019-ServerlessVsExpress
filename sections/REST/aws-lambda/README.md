@@ -21,7 +21,7 @@
     ```
     npm install
     ```
-    At this point, we should have express modules installed automatically.
+    At this point, we should have node modules installed automatically.
 
 5. Now that you installed the modules required for this app (just **"uuid"**, in this case, to use unique ids), we will need to create an **AWS S3 bucket**.
 
