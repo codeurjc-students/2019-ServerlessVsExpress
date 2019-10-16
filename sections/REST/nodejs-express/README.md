@@ -22,9 +22,9 @@
 
 ### Use
 We just need to run the server and make requests. We can do that by typing:
-    ```
-    node index.js
-    ```
+```
+node index.js
+```
 After doing this, a window should pop up from our default browser, but if it doesn't, you can access manually in [http://localhost:3000](http://localhost:3000). This is our REST API entry point.
 
 #### GET requests
