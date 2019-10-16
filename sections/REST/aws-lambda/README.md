@@ -18,10 +18,10 @@
 3. From the console, navigate to the folder "sections/REST/aws-lambda".
 
 4. To install the necessary dependencies for this project, write:
-```
-npm install
-```
-At this point, we should have express modules installed automatically.
+    ```
+    npm install
+    ```
+    At this point, we should have express modules installed automatically.
 
 5. Now that you installed the modules required for this app (just uuid, in this case), we will need to create an AWS S3 bucket.
 
