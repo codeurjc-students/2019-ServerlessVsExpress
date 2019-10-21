@@ -7,8 +7,9 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 
 - [x] **REST in (Nodejs + express) VS AWS Lambda**
     * Comparative between using REST in a common Nodejs stack and a Serverless.
-        1. [REST (Nodejs + express)](sections/REST/nodejs-express/README.md)
-        2. [REST (AWS Lambda + AWS API Gateway)](sections/REST/aws-lambda/README.md)
+        1. [Comparative](sections/REST)
+        2. [REST (Nodejs + express)](sections/REST/nodejs-express)
+        3. [REST (AWS Lambda + AWS API Gateway)](sections/REST/aws-lambda)
 
 - [ ] **Configuration of Visual Studio Code to use it with AWS SAM**
     * In this section, we will see how to configure VSCode IDE and prepare it to use Lambda functions using AWS SAM.
