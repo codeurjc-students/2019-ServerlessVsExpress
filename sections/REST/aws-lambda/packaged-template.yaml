@@ -5,30 +5,10 @@ Resources:
     Properties:
       Runtime: nodejs8.10
       Handler: index.usersHandler
-      CodeUri: s3://franrobles-bucket/9d8b49f35670c2f1d64bf50cb60e5aac
+      CodeUri: s3://franrobles-bucket/1f13fbbd9a0299a581b03b7713258ee3
       Events:
         lambdaGetAllUsers:
           Type: Api
           Properties:
             Path: /users
             Method: GET
-        lambdaAddUser:
-          Type: Api
-          Properties:
-            Path: /user
-            Method: POST
-        lambdaGetUser:
-          Type: Api
-          Properties:
-            Path: /user/{username}
-            Method: GET
-        lambdaUpdateUser:
-          Type: Api
-          Properties:
-            Path: /user
-            Method: PUT
-        lambdaDeleteUser:
-          Type: Api
-          Properties:
-            Path: /user
-            Method: DELETE
