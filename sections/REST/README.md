@@ -150,6 +150,18 @@ exports.usersHandler = (event, context, callback) => {
 };
 ```
 
+As you can see, there isn't any route to get all the users in the javascript file. That's because we need to create an event for it in template.yaml:
+
+```YAML
+Events:
+    lambdaGetAllUsers:
+        # Define an API Gateway endpoint that responds to HTTP GET at /users
+        Type: Api
+        Properties:
+            Path: /users
+            Method: GET
+```
+
 One more noticeable difference is that in **AWS Lambda**, we must return always a **response with two attributes**, a statusCode (integer), and a body (it must be a JSON object):
 
 ```javascript
