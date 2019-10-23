@@ -4,8 +4,8 @@
 1. An **AWS Account** is needed. You can obtain an account going to this url: [Create an AWS Account](https://aws.amazon.com/)
 2. You must have a supported OS (**Windows, Linux or macOS**).
 3. It's necessary that you have installed the **SDK for the language you want** to use. In our case, we have installed **Node.js** SDK, that can be found here: [Install Node.js SDK](https://nodejs.org/en/download/). You just need to choose your OS and download its package.
-4. **VSCode with a version >= 1.31.1** (If you have an older version, just update it pressing the "gear" button on the bottom-left side of VSCode and look if there is any available update in the options). Download VSCode if you don't have it: (VSCode download)[https://code.visualstudio.com/]
-5. **AWS SAM CLI**. This will allow you to develop and test your serverless apps with SAM templates. Follow these instructions to install it: (Install AWS SAM CLI)[https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html]
+4. **VSCode with a version >= 1.31.1** (If you have an older version, just update it pressing the "gear" button on the bottom-left side of VSCode and look if there is any available update in the options). Download VSCode if you don't have it: [VSCode download](https://code.visualstudio.com/)
+5. **AWS SAM CLI**. This will allow you to develop and test your serverless apps with SAM templates. Follow these instructions to install it: [Install AWS SAM CLI](https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 6. **Docker** is needed to work with AWS SAM CLI. It will allow us to work and test our templates locally, helping us with the resources needed to execute the app inside a container.
 
 ### Installation
@@ -18,7 +18,7 @@
 6. It will show you a **Reload Required** option. Click it and it will reload VSCode to finish the installation.
 
 ### Configure the credentials
-1. Get your **AWS Access Keys**. See how to do it in the official docs: (Get AWS Acess Keys)[https://docs.aws.amazon.com/es_es/toolkit-for-vscode/latest/userguide/obtain-credentials.html]
+1. Get your **AWS Access Keys**. See how to do it in the official docs: [Get AWS Acess Keys](https://docs.aws.amazon.com/es_es/toolkit-for-vscode/latest/userguide/obtain-credentials.html)
 
 2. Once you have the Access Keys, you can **connect** with them from the command line writting (the input data is an example of AWS. You must use your own keys):
     ```
