@@ -11,7 +11,7 @@
 ### Installation
 1. Start **VSCode**.
 2. Go to the **Activity Bar** on the left side.
-3. **Click on extensions icon** (it's an icon with 4 squares).
+3. **Click on extensions icon** (it's an icon with 4 squares). <br/>
     ![Extensions icon](./img/extensions-vscode-icon.png)
 4. In the search box, write **AWS Toolkit for Visual Studio Code** and when it appears, click on it.
 5. In the right pane, choose install.
@@ -27,16 +27,16 @@
     Default region name [None]: eu-west-3
     Default output format [None]: ENTER
     ```
-3. Make sure you are connected to an AWS profile in VSCode. Open the **Command palette** (View -> Command Palette), and write AWS. Select the option **AWS: Connect to AWS**. There should open an option with your credential profiles, where you should select the one you're going to work with:
-    ![Connect AWS Account profile](./img/connect-aws-account1.png)
+3. Make sure you are connected to an AWS profile in VSCode. Open the **Command palette** (View -> Command Palette), and write AWS. Select the option **AWS: Connect to AWS**. There should open an option with your credential profiles, where you should select the one you're going to work with: <br/>
+    ![Connect AWS Account profile](./img/connect-aws-account1.png) <br/>
     ![Connect AWS Account profile 2](./img/connect-aws-account2.png)
 
 ### Create a Serverless Application (using SAM) with the Toolkit for VSCode
-1. Open VSCode, and then, open the **Command Palette** and write AWS. It will automatically display some options. Click the one that says **AWS:Create new SAM Application**.
+1. Open VSCode, and then, open the **Command Palette** and write AWS. It will automatically display some options. Click the one that says **AWS:Create new SAM Application**. <br/>
     ![Create new sam app image](./img/create-new-sam-app.png)
-2. Now, it ask to choose the Runtime we need for our app. Select **nodejs10.x**.
+2. Now, it ask to choose the Runtime we need for our app. Select **nodejs10.x**. <br/>
     ![Select runtime image](./img/select-runtime.png)
-3. It will ask know for a folder to create our app. Select the one you preffer or create a new one choosing the option **There are no workspace folders open**.
+3. It will ask know for a folder to create our app. Select the one you preffer or create a new one choosing the option **There are no workspace folders open**. <br/>
     ![Select folder image](./img/select-folder.png)
-4. Enter a **name for the project**, for example, "sam-vscode-test-project". The example project should have been created now! The project folder should look like this:
+4. Enter a **name for the project**, for example, "sam-vscode-test-project". The example project should have been created now! The project folder should look like this: <br/>
     ![SAM Project structure image](./img/sam-project-structure.png)
