@@ -18,8 +18,9 @@
 6. It will show you a **Reload Required** option. Click it and it will reload VSCode to finish the installation.
 
 ### Configure the credentials
-1. Get your AWS Access Keys. See how to do it in the official docs: (Get AWS Acess Keys)[https://docs.aws.amazon.com/es_es/toolkit-for-vscode/latest/userguide/obtain-credentials.html]
-2. Once you have the Access Keys, you can connect with them from the command line writting (the input data is an example of AWS. You must use your own keys):
+1. Get your **AWS Access Keys**. See how to do it in the official docs: (Get AWS Acess Keys)[https://docs.aws.amazon.com/es_es/toolkit-for-vscode/latest/userguide/obtain-credentials.html]
+
+2. Once you have the Access Keys, you can **connect** with them from the command line writting (the input data is an example of AWS. You must use your own keys):
     ```
     aws configure
     AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
@@ -27,16 +28,21 @@
     Default region name [None]: eu-west-3
     Default output format [None]: ENTER
     ```
+
 3. Make sure you are connected to an AWS profile in VSCode. Open the **Command palette** (View -> Command Palette), and write AWS. Select the option **AWS: Connect to AWS**. There should open an option with your credential profiles, where you should select the one you're going to work with: <br/>
     ![Connect AWS Account profile](./img/connect-aws-account1.png) <br/>
     ![Connect AWS Account profile 2](./img/connect-aws-account2.png)
 
+
 ### Create a Serverless Application (using SAM) with the Toolkit for VSCode
 1. Open VSCode, and then, open the **Command Palette** and write AWS. It will automatically display some options. Click the one that says **AWS:Create new SAM Application**. <br/>
     ![Create new sam app image](./img/create-new-sam-app.png)
+
 2. Now, it ask to choose the Runtime we need for our app. Select **nodejs10.x**. <br/>
     ![Select runtime image](./img/select-runtime.png)
+
 3. It will ask know for a folder to create our app. Select the one you preffer or create a new one choosing the option **There are no workspace folders open**. <br/>
     ![Select folder image](./img/select-folder.png)
+
 4. Enter a **name for the project**, for example, "sam-vscode-test-project". The example project should have been created now! The project folder should look like this: <br/>
     ![SAM Project structure image](./img/sam-project-structure.png)
