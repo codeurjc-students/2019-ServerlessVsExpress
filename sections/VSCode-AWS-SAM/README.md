@@ -30,7 +30,6 @@
     ```
 
 3. Make sure you are connected to an AWS profile in VSCode. Open the **Command palette** (View -> Command Palette), and write AWS. Select the option **AWS: Connect to AWS**. There should open an option with your credential profiles, where you should select the one you're going to work with: <br/>
-    ![Connect AWS Account profile](./img/connect-aws-account1.png) <br/>
     ![Connect AWS Account profile 2](./img/connect-aws-account2.png)
 
 
