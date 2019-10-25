@@ -3,14 +3,14 @@
 ### Required
 1. Visual Studio Code: [Download](https://code.visualstudio.com/download)
 2. Node.js runtime: [Download](https://nodejs.org/)
-    - Although VSCode has support for JavaScript and TypeScript, this is needed in order to run the node.js application.
-    - Node Package Manager (npm) is included in the Node.js distribution.
+    - Although VSCode has support for **JavaScript** and **TypeScript**, this is needed in order to run the node.js application.
+    - **Node Package Manager** (npm) is included in the Node.js distribution.
 
 ### Create a Node.js application using VSCode
-1. In your working directory, create a folder. That's where we are going to create the node example app:
+1. In your working directory, create a folder. That's where we are going to create the node example app: <br/>
     ![Create folder in VSCode](./img/vscode-create-folder.png)
 
-2. Create a new file by pressing the **New file** button and call it **app.js**:
+2. Create a new file by pressing the **New file** button and call it **app.js**: <br/>
     ![Create new file in VSCode](./img/vscode-create-file.png)
 
 3. Create another new file called **package.json** in the same directory. This file will allow us to indicate what packages should be installed in our node application when we execute the command **npm install**, as well as it will make easier to share our app with other developers. Its content should look similar to this:
@@ -26,11 +26,13 @@
     ```
 
 4. (Optional) Install the **npm extension** to execute typical npm commands (install, run script, show output...). 
-    - You can do it clicking on the extensions button:
+    - You can do it clicking on the extensions button: <br/>
         ![Extensions icon](./img/extensions-vscode-icon.png)
-    - Then, write npm in the search box:
+
+    - Then, write npm in the search box: <br/>
         ![Write npm in the extensions search box](./img/vscode-npm-extension.png)
-    - Click where it says install:
+
+    - Click where it says install: <br/>
         ![Install extension](./img/vscode-install-extension.png)
 
 5. Restart VSCode.
@@ -40,14 +42,16 @@
     console.log(sayHello);
     ```
 7. From the VSCode nav menu, select **View -> Command palette**.
-8. Write **npm** on it, and the common npm scripts will appear:
+8. Write **npm** on it, and the common npm scripts will appear: <br/>
     ![Write npm in the palette](./img/vscode-command-palette-npm.png)
 
 9. First, select the option **npm: Install Dependencies**. It will install all the packages that appear in our package.json (none in our case).
-10. Secondly, select the one that says **npm: Start** to run our app.js file, and see the result in the vscode console!:
+
+10. Secondly, select the one that says **npm: Start** to run our app.js file, and see the result in the vscode console!: <br/>
     ![npm start result](./img/npm-start-result.png)
 
 * Steps from 4 to 10 are optional. Installing npm extension just helps to reproduce the **common npm scripts**, but this can be achieved writing the instructions directly in the command line.
+
 
 ## Configuration of VSCode + AWS SAM
 
