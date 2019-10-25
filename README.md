@@ -14,8 +14,8 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 - [ ] **Configuration of Visual Studio Code to use it with Node.js and AWS SAM**
     * In this section, we will see how to configure VSCode IDE and prepare it to be used with Node.js and with AWS SAM.
         1. [Comparative](sections/ConfigVSCode)
-        2. [Config VSCode for Node.js](sections/ConfigVSCode/nodejs-express)
-        3. [Config VSCode for AWS SAM](sections/ConfigVSCode/aws-lambda)
+        2. [Config VSCode for Node.js](sections/ConfigVSCode/nodejs-vscode-test-project)
+        3. [Config VSCode for AWS SAM](sections/ConfigVSCode/sam-vscode-test-project)
 
 - [ ] **Static web (SPA) - How to deploy a regular static web the common way VS Amazon S3**
     * How to deploy a static web normally and how it is done in an Amazon S3 bucket.
