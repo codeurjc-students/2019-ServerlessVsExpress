@@ -5,8 +5,8 @@
 - An **API key** to use the **OMDB** movies and series API. You can get one for free here [Get a free API key](http://www.omdbapi.com/) (with 1000 request/day)
 - Your favorite IDE/editor
 
-### Installation (the same for both cases)
 
+### Installation (the same in both cases)
 1. Clone the repository using the command line:
 
     ```
@@ -121,7 +121,7 @@ Now, you need to go to your **S3 bucket** in the AWS Console and copy the **URL*
 
 Here, you can see the working example:
 
-![Example SPA Serverless (AWS S3)](./img/local.png)
+![Example SPA Serverless (AWS S3)](./img/serverless.png)
 
 </p>
 </details>
