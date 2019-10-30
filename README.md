@@ -11,7 +11,7 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         2. [REST (Node.js + express)](sections/REST/nodejs-express)
         3. [REST (AWS Lambda + AWS API Gateway)](sections/REST/aws-lambda)
 
-- [ ] **Configuration of Visual Studio Code to use it with Node.js and AWS SAM**
+- [x] **Configuration of Visual Studio Code to use it with Node.js and AWS SAM**
     * In this section, we will see how to configure VSCode IDE and prepare it to be used with Node.js and with AWS SAM.
         1. [Comparative](sections/ConfigVSCode)
         2. [Config VSCode for Node.js](sections/ConfigVSCode/nodejs-vscode-test-project)

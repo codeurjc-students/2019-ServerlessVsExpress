@@ -1,0 +1,160 @@
+*:focus {
+    outline: none;
+}
+
+body {
+    background: #d7dae0;
+    margin: 0;
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+ul.header li {
+    display: inline;
+    list-style: none;
+    margin: 0;
+}
+
+ul.header {
+    background: #BF4E4E;
+    border: 1px solid #ad3535;
+}
+
+ul.header li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 15px;
+    display: inline-block;
+}
+
+.content {
+    background: #f1f1f1;
+    border: 1px solid #cac7c7;
+    padding: 20px;
+}
+
+.active {
+    background: #ca3030;
+}
+
+.container-searchby {
+    margin-bottom: 10px;
+}
+
+.container-searchby input[type=text] {
+    height: 25px;
+    padding: 5px;
+    font-size: 15px;
+    -moz-box-sizing: content-box; /* or `border-box` */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    border: 1px solid #d2d2d2;
+}
+
+.container-searchby button {
+    height: 25px;
+    width: 70px;
+    padding: 5px;
+    box-sizing: content-box;
+    cursor: pointer;
+    background: #bf4e4e;
+    color: white;
+    font-size: 15px;
+    border: 1px solid #ad3535;
+}
+
+.container-searchby button:hover {
+    background: #ca3131;
+}
+
+.movies {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.movie {
+    border: 1px solid #d2d2d2;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: calc(25% - 5px);
+    margin-left: 5px;
+    display: flex;
+    background: white;
+}
+
+.movie:nth-child(4n + 1) {
+    margin-left: 0;
+}
+
+.movie .poster {
+    margin-right: 10px;
+}
+
+.movie .poster img{
+    max-height: 150px;
+    max-width: 113px;
+}
+
+.movie .title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ca3131;
+}
+
+.movie .year {
+    padding: 10px 0 0 0;
+    font-size: 12px;
+    color: #424242;
+}
+
+.movie .imdb-link a{
+    font-size: 13px;
+    color: #3c3c3c;
+    padding: 10px 0;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination-container button{
+    background: #ca3131;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid #ad3535;
+    margin-left: 1px;
+    min-width: 25px;
+}
+
+.pagination-container button:hover{
+    background: #ad3535;
+}
+
+.pagination-container .active-page, .pagination-container .active-page:hover {
+    background: black;
+}
+
+.profile-container-movies {
+    display: flex;
+    width: 100%;
+    background: white;
+    border: 1px solid #d2d2d2;
+    flex-direction: column;
+}
+
+.profile-container-movies h3 {
+    margin: 15px;
+    color: #ca3131;
+    border-bottom: 1px solid #d2d2d2;
+    padding-bottom: 7px;
+}
+
+.profile-container-movies .favorite-movies {
+    margin: 15px;
+    display: flex;
+    flex-wrap: wrap;
+}
