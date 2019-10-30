@@ -17,8 +17,10 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         2. [Config VSCode for Node.js](sections/ConfigVSCode/nodejs-vscode-test-project)
         3. [Config VSCode for AWS SAM](sections/ConfigVSCode/sam-vscode-test-project)
 
-- [ ] **Static web (SPA) - How to deploy a regular static web the common way VS Amazon S3**
+- [x] **Static web (SPA) - How to deploy a regular static web the common way VS Amazon S3**
     * How to deploy a static web normally and how it is done in an Amazon S3 bucket.
+        1. [Comparative](sections/SPADeployment)
+        2. [React SPA app](sections/SPADeployment/spa-react)
 
 - [ ] **Users Management**
     * Users management using a typical athentication system in Nodejs and how to do it using "Cognito" instead.
