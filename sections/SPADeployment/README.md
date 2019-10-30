@@ -36,9 +36,9 @@
 
 To deploy our app locally, we first need to build or project. This will create **chunks** of code (using hashes by name), which will be the same code our project contains, but obfuscated to avoid security problems and hide important data. To build our app, we need to write in the command line (from the root folder of our project):
 
-    ```
-    npm run build
-    ```
+```
+npm run build
+```
 
 After doing the step above, a **build** folder will be created. This is all the static code we need to upload to the server. In this case, we have chosen to "deploy" it locally, but you'd just need to upload it with your favorite **FTP** app (for example, Filezilla) to the /html folder.
 
@@ -105,17 +105,18 @@ We have told our bucket to set up as a hosting, but now, let's set the permissio
 
 It's time to **deploy**! I've done a little change to the **package.json** file. In the **scripts section**, i added a line to be able to deploy my SPA files directly to the created bucket:
 
-    ```json
-    "scripts": {
-        //...
-        "deploy-aws": "aws s3 sync build/ s3://franrobles8-spa-bucket --acl public-read"
-    }
-    ```
+```json
+"scripts": {
+    //...
+    "deploy-aws": "aws s3 sync build/ s3://franrobles8-spa-bucket --acl public-read"
+}
+```
+
 You just need to change the bucket name **franrobles8-spa-bucket** with your correct bucket name. After doing that, you can build and deploy in one line as follows (from the root project's folder):
 
-    ```
-    npm run build && npm run deploy-aws
-    ```
+```
+npm run build && npm run deploy-aws
+```
 
 Now, you need to go to your **S3 bucket** in the AWS Console and copy the **URL** provided in the **Static Web Hosting** modal. Paste it in your prefered browser and see how it works!
 
