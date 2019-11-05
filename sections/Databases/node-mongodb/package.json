@@ -1,0 +1,15 @@
+{
+  "name": "node-mongodb-app",
+  "version": "1.0.0",
+  "description": "Application created to test a mongoDB database with Nodejs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.7"
+  }
+}
