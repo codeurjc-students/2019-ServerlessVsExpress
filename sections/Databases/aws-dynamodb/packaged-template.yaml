@@ -1,0 +1,60 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  usersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: index.usersHandler
+      CodeUri: s3://franrobles8-database-test/7d6b6a369222b2145d59148d31f33956
+      Events:
+        lambdaGetAllUsers:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: GET
+        lambdaAddUser:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: POST
+        lambdaUpdateUser:
+          Type: Api
+          Properties:
+            Path: /users/{userid}
+            Method: PUT
+        lambdaDeleteUser:
+          Type: Api
+          Properties:
+            Path: /users/{userid}
+            Method: DELETE
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - dynamodb:Scan
+          - dynamodb:DeleteItem
+          - dynamodb:GetItem
+          - dynamodb:PutItem
+          - dynamodb:UpdateItem
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:dynamodb:'
+              - Ref: AWS::Region
+              - ':'
+              - Ref: AWS::AccountId
+              - :table/users
+  usersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: users
+      AttributeDefinitions:
+      - AttributeName: userid
+        AttributeType: S
+      KeySchema:
+      - AttributeName: userid
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5

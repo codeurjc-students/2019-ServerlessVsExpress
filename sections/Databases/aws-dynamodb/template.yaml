@@ -1,0 +1,70 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+    usersFunction:
+        # This resource creates a Lambda function.
+        Type: 'AWS::Serverless::Function'
+        Properties:
+            # This function uses the Nodejs v8.10 runtime.
+            Runtime: nodejs8.10
+            # This is the Lambda function's handler.
+            Handler: index.usersHandler
+            # The location of the Lambda function code.
+            CodeUri: ./src
+            # Event sources to attach to this function. In this case, we are attaching
+            # multiple API Gateway endpoints to the Lambda function. The function is
+            # called when a HTTP request is made to the API Gateway endpoint.
+            Events:
+                lambdaGetAllUsers:
+                    # Define an API Gateway endpoint that responds to HTTP GET at /users
+                    Type: Api
+                    Properties:
+                        Path: /users
+                        Method: GET
+                lambdaAddUser:
+                    Type: Api
+                    Properties:
+                        Path: /users
+                        Method: POST
+                lambdaUpdateUser:
+                    Type: Api
+                    Properties:
+                        Path: /users/{userid}
+                        Method: PUT
+                lambdaDeleteUser:
+                    Type: Api
+                    Properties:
+                        Path: /users/{userid}
+                        Method: DELETE
+            Policies:
+                # Policies to allow the execution of the indicated actions to the table described in Resource
+                -   Version: '2012-10-17'
+                    Statement: 
+                        -   Effect: Allow
+                            Action:
+                                -   'dynamodb:Scan'
+                                -   'dynamodb:DeleteItem'
+                                -   'dynamodb:GetItem'
+                                -   'dynamodb:PutItem'
+                                -   'dynamodb:UpdateItem'
+                            Resource:
+                                'Fn::Join':
+                                    -   ''
+                                    -   -   'arn:aws:dynamodb:'
+                                        -   Ref: 'AWS::Region'
+                                        -   ':'
+                                        -   Ref: 'AWS::AccountId'
+                                        -   ':table/users'
+    
+    usersTable:
+        Type: 'AWS::DynamoDB::Table'
+        Properties:
+            TableName: users
+            AttributeDefinitions:
+                -   AttributeName: userid
+                    AttributeType: S
+            KeySchema:
+                -   AttributeName: userid
+                    KeyType: HASH
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 5
