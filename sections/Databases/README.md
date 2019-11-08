@@ -9,7 +9,7 @@
 - **MongoDB Cloud Account** [Create an account for free](https://cloud.mongodb.com/user#/atlas/register/accountProfile)
 - **POSTMAN** or your prefered way to do HTTP requests to an API [Get POSTMAN](https://www.getpostman.com/downloads/)
 
-### Installation and Use
+### Installation
 
 #### MongoDB Atlas database creation
 1. Login with your MongoDB account.
@@ -44,7 +44,7 @@
     npm start
     ```
 
-#### Use
+### Use
 
 We have created a mini API to use some typical **queries to our MongoDB database**. Here, you can see the endpoints you will have access to (the **queries explanation are in the Comparative section**):
 
@@ -109,7 +109,7 @@ We have created a mini API to use some typical **queries to our MongoDB database
 - **AWS SAM CLI** (You will need to have an **AWS account**). Follow these instructions to install it from the official docs: [Instructions](https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 - **AWS SDK for Javascript** Follow this two [Installation](https://aws.amazon.com/es/sdk-for-node-js/) steps to install it.
 
-### Installation and Use
+### Installation
 #### AWS + Dynamodb app installation
 1. Go to [AWS](https://aws.amazon.com), and in the search box, input **IAM**. In this section (we need an IAM administrator user, but that should be done if you did the AWS SAM CLI config), we'll go to **Users**, and select the user you configured your AWS SAM CLI to work with. Click on it, and add the permission policie **AmazonDynamoDBFullAccess**. This is all we need from AWS for now.
 2. Clone the main repository to a local folder using the command line:
@@ -128,22 +128,20 @@ We have created a mini API to use some typical **queries to our MongoDB database
 5. **Package the project** writing this:
 
     ```
-    sam package --template-file template.yaml --s3-bucket your-bucket-name --output-template-file pack
-aged-template.yaml
+    sam package --template-file template.yaml --s3-bucket your-bucket-name --output-template-file packaged-template.yaml
     ```
 
 6. **Deploy the app** to generate automatically all the needed resources:
 
     ```
-    sam deploy --template-file packaged-template.yaml --stack-name your-stack-name --capabilities CAPABILIT
-Y_IAM
+    sam deploy --template-file packaged-template.yaml --stack-name your-stack-name --capabilities CAPABILITY_IAM
     ```
 
 7. Once you have deployed the app, you should have your endpoints in [Amazon API Gateway](console.aws.amazon.com/apigateway). There, you need to **select your stack (your-stack-name) -> Stages -> Prod**. There, get the **Invoke URL** (you will need it to make the requests).
 8. But the important thing in this section is [DynamoDB](console.aws.amazon.com/dynamodb). Being there, press on **Tables**. You should see a table named **users**.
 9. The installation is done!
 
-#### Use
+### Use
 
 With the **Invoke URL**, we will be able use our DynamoDB queries in the background. Here, you can see the endpoints to the API created in the lambda function:
 

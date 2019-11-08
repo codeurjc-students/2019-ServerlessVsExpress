@@ -117,7 +117,7 @@ After doing this, a window should pop up from our default browser, but if it doe
 
     If you have read the requirements of this project and have installed **AWS SAM CLI**, you will also be able to use **AWS CLI**. To create the bucket, use this command:
     ```
-    aws s3api create-bucket --bucket my-bucket --region eu-west-3
+    aws s3api create-bucket --bucket my-bucket --create-bucket-configuration LocationConstraint=eu-west-3
     ```
     With this command, we have created a **bucket named "my-bucket"** in the **region "eu-west-3"**. It's important to keep in mind the region you have chosen because you'll need to use the same region if you're going to use other AWS services(i.e. **DynamoDB database**) to make it work.
 
