@@ -28,7 +28,7 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 - [ ] **Files**
     * Managing files in different environments (nodejs and AWS Lambda).
 
-- [x] **BBDD**
+- [x] **Databases**
     * Using (Nodejs + MongoDB) VS (AWS Lambda + DynamoDB).
         1. [Comparative](sections/Databases)
         2. [Database with MongoDB + Node.js](sections/Databases/node-mongodb)
