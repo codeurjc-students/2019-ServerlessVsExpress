@@ -25,8 +25,11 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 - [ ] **Users Management**
     * Users management using a typical authentication system in Nodejs and how to do it using "Cognito" instead.
 
-- [ ] **Files**
+- [x] **Files**
     * Managing files in different environments (nodejs and AWS Lambda).
+        1. [Comparative](sections/FilesManagement)
+        2. [File handling in Node.js](sections/FilesManagement/nodejs-express)
+        3. [File handling in AWS + S3](sections/FilesManagement/aws-s3)
 
 - [x] **Databases**
     * Using (Nodejs + MongoDB) VS (AWS Lambda + DynamoDB).
