@@ -236,7 +236,6 @@ const fs = require('fs');
 With that object imported, we can use its methods, which i'm going to describe below:
 
 #### Reading files
-==================
 In this case, we created the same functionality sync and async:
 
 **Sync form:**
@@ -267,7 +266,6 @@ We can read the file also with the code above, but as it is asynchronous, we hav
 
 
 #### Creating files
-===================
 There are also two options to do the same thing with the rest of operations. In this case, we can add an user to our users.json file sync and async:
 
 **Sync form:**
@@ -337,8 +335,7 @@ app.route('/async/create').post((req, res) => {
 ```
 
 #### Updating files
-===================
-The **fs** module also allows us to, for example, append new content to a file (if the file doesn't exist, it creates a new one):
+The "**fs**" module also allows us to, for example, append new content to a file (if the file doesn't exist, it creates a new one):
 
 ```javascript
 app.route('/async/append').put((req, res) => {
@@ -377,7 +374,6 @@ app.route('/async/rename').put((req, res) => {
 ```
 
 #### Deleting files
-===================
 Of course, we can also delete a file providing its name:
 
 ```javascript
@@ -398,7 +394,6 @@ app.route('/async/delete').delete((req, res) => {
 ```
 
 #### Error handling
-===================
 To handle the errors that might happen when we try to achieve some of the operations above, i've added a **"responseObject"** method where, in case of an error, it creates a custom message depending on the code:
 
 ```javascript
@@ -408,6 +403,8 @@ res.send({
     error: ErrorsDescriber.fileError(error.code, error.path)
 });
 ```
+
+---
 
 ### AWS Lambda + AWS S3 bucket file handling
 AWS becomes very interesting when it comes to handle files. Indeed, **files are really objects**, which is what i'm going to refer to files from now on. This objects, can be uploaded to an **AWS S3 bucket**. Let's say we have created a bucket, and we want to read/create/delete files on it. We have many ways to do that, but of course, some of them are simpler than the others. In our case, we used **aws-sdk** module, which can be imported in our app like this:
@@ -425,7 +422,6 @@ const S3 = new AWS.S3({apiVersion: '2006-03-01'});
 In the code above, we have added an attribute to indicate that we'll use the S3 API's functionality dated in '2006-03-01', which is the only one at the moment. Now that we have our S3 object ready to go, we can use it to start working with objects/files. It has many methods you could use [Available S3 Methods](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html), but in this section, we will focus in two of them to compare it to the Node.js version, **getObject and putObject**.
 
 #### Reading files
-==================
 We can get an object, specifying the **required params** (Bucket and Key) and also, **optional params** that can help us search given a condition, for example, we could search for an object whose version has changed during its life. You can see an example here:
 
 
@@ -453,7 +449,6 @@ const getObject = (fileName, callback) => {
 As you can see, there are only **two params required**, but we could have also added optionals, like **VersionId: 'vid'**, that helps us get the version we preffer of the object.
 
 #### Creating files
-===================
 To create files, our S3 object gives us the **putObject** method. We can use it to create an object, indicating the **Bucket**, a **Key** (which is the name of the object), and a **Body** (the object's content). Of course, it allows us to give more extra info to the object using the params, for example, we could add custom metadata, tags, server-side encryption, etc:
 
 ```javascript
@@ -482,11 +477,9 @@ const writeObject = (data, callback) => {
 ```
 
 #### Updating files
-===================
 S3 also gives us the option to update and object, but... it is, in fact, the same we did to create it. In the background, it also uses the **putObject** method to update it. You only need to specify the **same Bucket and Key**, and modify the data or the optional params, and it should work! Doing this, it will update the last modification datetime of the object.
 
 #### Deleting files
-===================
 With the method **deleteObject**, and using as params a bucket and a key, we can delete an object:
 
 ```javascript
@@ -511,11 +504,9 @@ const deleteObject = (fileName, callback) => {
 A common thing in all this methods is their structure. It always has the form "**method(params, callback)**", and let us work with it very easily!
 
 #### Error handling
-===================
 In above's paragraph, we mentioned that each method has a callback. This callback consists in an error as the first argument, and the data returned in the second one. If there hasn't been any error during the execution of the method, the **error will get a null value**. On the contrary, if something went wrong, the **error variable will contain the necessary information** to clarify what happened.
 
 #### Policies to give our app access to the bucket
-==================================================
 The last step, but i would say, the most important to get this working, is to apply the right policies to our app. This is necessary because by default, all permissions are revoked in order to protect the resources. In our example, we wrote this Policies to let our application manage the bucket:
 
 ```yml
@@ -539,6 +530,7 @@ Policies:
 
 As you can read in the template comments, the first policy allow the app to list the objects from the bucket. This is required if you want to **read/get any object**. Also, in the second policy, we are allowing all the actions to all the objects. This will help us with **writing** and **deleting** the objects we want.
 
+---
 
 ### Summary
 Handling files has always been very important. With Node.js, we can handle files just importing a module. In AWS, we need to do a few more steps (SAM CLI, etc) before doing this, but once we get everything done, we can do the same, or **even more** ([See all methods of S3](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html). But we need to look further. The main difference i've encountered is that **AWS has a great protection layer** that secures our files/objects from being compromised. You can also do that with Node.js, but it can be harder to achieve the same results that, by default, AWS provides.
