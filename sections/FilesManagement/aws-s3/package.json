@@ -1,0 +1,14 @@
+{
+  "name": "aws-s3-files-test-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "aws-sdk": "^2.570.0"
+  }
+}

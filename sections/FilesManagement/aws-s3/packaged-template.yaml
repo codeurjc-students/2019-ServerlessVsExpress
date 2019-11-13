@@ -1,0 +1,43 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  filesHandlingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs8.10
+      Handler: index.filesHandler
+      CodeUri: s3://franrobles8-filehandling-bucket/f8259117bd4bcf3ebf2aebd93036d5de
+      Events:
+        lambdaGetFile:
+          Type: Api
+          Properties:
+            Path: /getFile/{fileName}
+            Method: GET
+        lambdaWriteFile:
+          Type: Api
+          Properties:
+            Path: /writeFile
+            Method: POST
+        lambdaUpdateFile:
+          Type: Api
+          Properties:
+            Path: /updateFile
+            Method: PUT
+        lambdaDeleteFile:
+          Type: Api
+          Properties:
+            Path: /deleteFile/{fileName}
+            Method: DELETE
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+        - Sid: ListObjectsInBucket
+          Effect: Allow
+          Action:
+          - s3:ListBucket
+          Resource:
+          - arn:aws:s3:::franrobles8-filehandling-bucket
+        - Sid: AllObjectActions
+          Effect: Allow
+          Action: s3:*Object
+          Resource:
+          - arn:aws:s3:::franrobles8-filehandling-bucket/*
