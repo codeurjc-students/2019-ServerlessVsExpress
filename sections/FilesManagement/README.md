@@ -126,6 +126,8 @@ Most of the File System operations can be done **synchronously** and **asynchron
      }
      ```
 
+---
+
 </p>
 </details>
 
@@ -218,6 +220,8 @@ Now that you have your **Invoke Url** available, let's try all the endpoints:
 
 
 If you want to see the code to handle all the files in each respective request, go to the **Comparative** section, that can be found below.
+
+---
 
 </p>
 </details>
@@ -533,4 +537,6 @@ As you can read in the template comments, the first policy allow the app to list
 ---
 
 ### Summary
-Handling files has always been very important. With Node.js, we can handle files just importing a module. In AWS, we need to do a few more steps (SAM CLI, etc) before doing this, but once we get everything done, we can do the same, or **even more** ([See all methods of S3](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html). But we need to look further. The main difference i've encountered is that **AWS has a great protection layer** that secures our files/objects from being compromised. You can also do that with Node.js, but it can be harder to achieve the same results that, by default, AWS provides.
+Handling files has always been very important. With Node.js, we can handle files just importing a module. In AWS, we need to do a few more steps (SAM CLI installation, etc) before doing this, but once we get everything done, we can do the same, or **even more** ([See all methods of S3](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html)). There is also one thing i missed from AWS. **It's not possible to append data** (we don't have any operation to do that directly) to an existent object, and if you want to do it, you first need to get the object, modify it, and then write it again to the bucket, which is **less efficient** than a real append operation.
+
+Nonetheless, we need to look further. The main difference i've encountered is that **AWS has a great protection layer** that **secures files/objects** from being compromised. You can also do that with Node.js, but it can be harder to achieve the same results that, by default, AWS provides.
