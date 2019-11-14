@@ -22,9 +22,6 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         1. [Comparative](sections/SPADeployment)
         2. [React SPA app](sections/SPADeployment/spa-react)
 
-- [ ] **Users Management**
-    * Users management using a typical authentication system in Nodejs and how to do it using "Cognito" instead.
-
 - [x] **Files**
     * Managing files in different environments (nodejs and AWS Lambda).
         1. [Comparative](sections/FilesManagement)
@@ -42,6 +39,9 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 
 - [ ] **Notifications**
     * Creating notifications for users making use of Websockets
+
+- [ ] **Users Management**
+    * Users management using a typical authentication system in Nodejs and how to do it using "Cognito" instead.
 
 - [ ] **Average cost having chosen one of this stacks**
     * Aproximation to the cost of using a typical stack VS using a Serverless one, having the same parameters. We will see when it's prefferable to use one or another in a short/long term based on AWS prices.
