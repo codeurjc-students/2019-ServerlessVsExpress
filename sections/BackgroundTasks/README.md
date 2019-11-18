@@ -10,56 +10,54 @@
 - **POSTMAN** or your prefered way to do HTTP requests to an API [Get POSTMAN](https://www.getpostman.com/downloads/)
 - **RabbitMQ** server. You can follow these steps to install it:
     1. Type this command on the terminal:
-    
-    **Linux Systems**<br>
-    ```
-    sudo apt-get install rabbitmq-server
-    ```
+        **Linux Systems**<br>
+        ```
+        sudo apt-get install rabbitmq-server
+        ```
 
-    **MacOS**<br>
-    ```
-    brew install rabbitmq
-    ```
+        **MacOS**<br>
+        ```
+        brew install rabbitmq
+        ```
 
-    2. Check the installation is correct typing:
-    ```
-    rabbitmq-server
-    ```
+    2. Check the installation was correct typing:
+        ```
+        rabbitmq-server
+        ```
 
-    If everything is fine, you should see something like this:<br>
-    ```
-    ##  ##      RabbitMQ 3.8.1
-    ##  ##
-    ##########  Copyright (c) 2007-2019 Pivotal Software, Inc.
-    ######  ##
-    ##########  Licensed under the MPL 1.1. Website: https://rabbitmq.com
+        If everything is fine, you should see something like this:<br>
 
-    Doc guides: https://rabbitmq.com/documentation.html
-    Support:    https://rabbitmq.com/contact.html
-    Tutorials:  https://rabbitmq.com/getstarted.html
-    Monitoring: https://rabbitmq.com/monitoring.html
+        ```
+        ##  ##      RabbitMQ 3.8.1
+        ##  ##
+        ##########  Copyright (c) 2007-2019 Pivotal Software, Inc.
+        ######  ##
+        ##########  Licensed under the MPL 1.1. Website: https://rabbitmq.com
 
-    Logs: /usr/local/var/log/rabbitmq/rabbit@localhost.log
-            /usr/local/var/log/rabbitmq/rabbit@localhost_upgrade.log
+        Doc guides: https://rabbitmq.com/documentation.html
+        Support:    https://rabbitmq.com/contact.html
+        Tutorials:  https://rabbitmq.com/getstarted.html
+        Monitoring: https://rabbitmq.com/monitoring.html
 
-    Config file(s): (none)
+        Logs: /usr/local/var/log/rabbitmq/rabbit@localhost.log
+                /usr/local/var/log/rabbitmq/rabbit@localhost_upgrade.log
 
-    Starting broker... completed with 6 plugins.
-    ```
+        Config file(s): (none)
 
-    3. To access the UI provided by RabbitMQ, you can create an user this way:
+        Starting broker... completed with 6 plugins.
+        ```
 
-    ```
-    rabbitmqctl add_user myUser myPass
-    ```
+    3. To **access the UI** provided by RabbitMQ, you can **create an user** this way:
+        ```
+        rabbitmqctl add_user username userpass
+        ```
 
-    Then, you need to make this user adminstrator:
+    4. Then, you need to **make this user adminstrator**:
+        ```
+        rabbitmqctl set_user_tags username administrator
+        ```
 
-    ```
-    rabbitmqctl set_user_tags myUser administrator
-    ```
-
-    4. Access to this url with the user credentials created above [http://localhost:15672](http://localhost:15672). This will be helpful if you want to see your queues in action!
+    5. **Access to this url** with the user credentials created above [http://localhost:15672](http://localhost:15672). This will be helpful if you want to see your queues in action!
 
 ### Installation
 
@@ -111,6 +109,7 @@ If everything is correct, the **pdf will be generated in a background process** 
 
 
 </p>
+</details>
 
 ## Comparative
 
