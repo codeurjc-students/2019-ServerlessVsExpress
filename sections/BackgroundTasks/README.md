@@ -9,7 +9,7 @@
 - **Node.js** [Download](https://nodejs.org/es/download/)
 - **POSTMAN** or your prefered way to do HTTP requests to an API [Get POSTMAN](https://www.getpostman.com/downloads/)
 - **RabbitMQ** server. You can follow these steps to install it:
-    1. Type this command on the terminal:
+    1. Type this command on the terminal:<br>
         **Linux Systems**<br>
         ```
         sudo apt-get install rabbitmq-server
@@ -85,7 +85,7 @@
 #### Use
 As we use to in the other sections, i've created and endpoint in the url [http://localhost:3000/generatePdf](http://localhost:3000/generatePdf). This endpoint, in the background, will **create a task**. This task will be added to a queue called **pdfQueue**, to be treated in the background. To create the request, you need to use **POST Method** with this body's content:
 
-```
+```json
 {
 	"pdfData": {
 		"title": "mytitle",
@@ -123,7 +123,7 @@ Exchanges can be of **different types**:
 - **headers**: It can be used when we need to filter with something more than a routing key, which could be better in some cases.
 - **fanout**: This is the "hardest" type. It can be used when we need the message to be forwarded to all queues, and can also be used for broadcasting.
 
-To import the callback version of RabbitMQ, write this on your app:
+To import the **callback version of RabbitMQ**, write this on your app:
 
 ```javascript
 const amqp = require('amqplib/callback_api');
