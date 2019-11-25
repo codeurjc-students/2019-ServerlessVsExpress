@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-express-rabbitmq",
+  "version": "1.0.0",
+  "description": "Application to test background tasks using node.js, express and RabbitMQ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "express": "^4.17.1",
+    "html-pdf": "^2.2.0"
+  }
+}

@@ -34,8 +34,11 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         2. [Database with MongoDB + Node.js](sections/Databases/node-mongodb)
         3. [Database with DynamoDB + AWS](sections/Databases/aws-dynamodb)
 
-- [ ] **Background tasks**
+- [x] **Background tasks**
     * Use of background tasks (i.e. generate pdfs...) in both environments.
+        1. [Comparative](sections/BackgroundTasks)
+        2. [Background Tasks with Node.js + Express + RabbitMQ](sections/BackgroundTasks/nodejs-express-rabbitmq)
+        3. [Background Tasks with AWS + S3 + SQS](sections/BackgroundTasks/aws-s3-sqs)
 
 - [ ] **Notifications**
     * Creating notifications for users making use of Websockets
