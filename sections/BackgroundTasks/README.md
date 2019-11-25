@@ -166,6 +166,8 @@ Request Body:
 
 After making the request, you need to wait some seconds, before your message gets processed in the background. After that, if you go to your [S3 bucket](https://s3.console.aws.amazon.com/s3/buckets/) in AWS Console, inside the one you created before, you should see a folder called **/pdfs** which should contain a pdf file with the title and content you passed in the message.
 
+---
+
 </p>
 </details>
 
