@@ -1,0 +1,38 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  pdfApiCreationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs10.x
+      Handler: index.pdfSenderHandler
+      CodeUri: s3://franrobles8-pdf-bucket/7877d8a00eecd1e021a3a108b5687364
+      Events:
+        lambdaWriteFile:
+          Type: Api
+          Properties:
+            Path: /createPdf
+            Method: POST
+      Policies:
+      - SQSSendMessagePolicy:
+          QueueName:
+            Fn::GetAtt:
+            - PdfSqsQueue
+            - QueueName
+  SQSQueueFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.queueProcessingHandler
+      Runtime: nodejs10.x
+      Policies:
+      - SQSPollerPolicy:
+          QueueName:
+            Fn::GetAtt:
+            - PdfSqsQueue
+            - QueueName
+      - S3CrudPolicy:
+          BucketName: franrobles8-pdf-bucket
+      CodeUri: s3://franrobles8-pdf-bucket/7877d8a00eecd1e021a3a108b5687364
+  PdfSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: pdfQueue

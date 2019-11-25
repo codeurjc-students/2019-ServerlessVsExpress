@@ -1,0 +1,40 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+
+    # Api created to send a Message to the pdfQueue from an endpoint
+    pdfApiCreationFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Runtime: nodejs10.x
+            Handler: index.pdfSenderHandler
+            CodeUri: .
+            Events:
+                lambdaWriteFile:
+                    Type: Api
+                    Properties:
+                        Path: /createPdf
+                        Method: POST
+            Policies:
+              -   SQSSendMessagePolicy:
+                      QueueName:
+                        !GetAtt PdfSqsQueue.QueueName
+    # SQSQueue handler to receive, process messages
+    SQSQueueFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+          Handler: index.queueProcessingHandler
+          Runtime: nodejs10.x
+          Policies:
+            -   SQSPollerPolicy:
+                  QueueName: 
+                    !GetAtt PdfSqsQueue.QueueName
+            -   S3CrudPolicy:
+                  BucketName: xxxxxx-pdf-bucket
+    
+    # Creation of a default queue
+    PdfSqsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: "pdfQueue"
+
+                        

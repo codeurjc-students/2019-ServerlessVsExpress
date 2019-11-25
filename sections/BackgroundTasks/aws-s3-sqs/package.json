@@ -1,0 +1,14 @@
+{
+  "name": "aws-s3-sqs",
+  "version": "1.0.0",
+  "description": "Application created with the purpose of testing background tasks/processes in a Serverless environment (AWS Lambda)",
+  "main": "index.js",
+  "scripts": {
+    "package-and-deploy": ""
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "pdfkit": "^0.10.0"
+  }
+}
