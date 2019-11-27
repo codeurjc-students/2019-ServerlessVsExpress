@@ -115,10 +115,12 @@ if(parseFloat(msg.amount) > parseFloat(currentBidAmount)) {
 ```
 
 #### Client side:
-On the client side, we can import the client socket.io version like this, in the html template (right before the "</body>" tag):
+On the client side, we can import the client socket.io version like this, in the html template (right before the "closing body" tag):
 
 ```html
-<script src="/socket.io/socket.io.js"></script>
+    <!-- Rest of the html -->
+    <script src="/socket.io/socket.io.js"></script>
+</body>
 ```
 
 Then, we need do create the **io object** to send events and listen them from the server side:
