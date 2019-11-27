@@ -15,24 +15,24 @@
     ```
 
 2. From the command line, navigate to the folder **sections -> Notifications -> nodejs-socket-io**
-3. Write the following command to install the packages, including socket.io:
+3. Write the following command to **install the packages**, including socket.io:
 
     ```
     npm install
     ```
 
-4. The last step is running the server:
+4. The last step is **running the server**:
 
     ```
     npm start
     ```
 
 ### Use
-You can try this section using your browser. You just need to go to the url [http://localhost:3000](http://localhost:3000) after running your server. To be more realistic and simulate a multiclient environment, make sure to open more than one browser windows with that url. A log should appear in your console everytime a new user/client connects to the server:
+You can try this section using your browser. You just need to go to the url [http://localhost:3000](http://localhost:3000) after running the server. To be more realistic and simulate a **multiclient environment**, make sure to **open more than one browser window** with that url. A log should appear in your console everytime a new user/client connects to the server:
 
 ![Users connecting to the server](./img/users-connecting-server.png)
 
-This project is an auction simulator, so, you should be able to make a bid from the different browser windows and the changes should be reflected in the rest of the windows. The changes can be seen in the current max bid, and the bids history on a right panel:
+This project is an **auction simulator**, so, you should be able to **make a bid** from the different browser windows and the changes should be reflected in the rest of the windows. The changes can be seen in the **current max bid**, and the **bids history** on a right panel:
 
 1. A first user makes a bid:
 
@@ -62,6 +62,7 @@ This project is an auction simulator, so, you should be able to make a bid from 
 ---
 
 </p>
+</details>
 
 ## Comparative
 
