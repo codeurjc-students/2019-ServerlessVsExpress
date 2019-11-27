@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-socket-io",
+  "version": "1.0.0",
+  "description": "App created to test notifications using websocket.io in Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0"
+  }
+}
