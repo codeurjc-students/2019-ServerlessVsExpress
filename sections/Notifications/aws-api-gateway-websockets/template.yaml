@@ -1,0 +1,153 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  # Function to add a connection to the db
+  ConnectLambdaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+        Runtime: nodejs10.x
+        Handler: index.handlerConnect
+        CodeUri: ./src
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !GetAtt WebsocketsTable.TableName
+
+  # Function to delete a connection to the db
+  DisconnectLambdaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+        Runtime: nodejs10.x
+        Handler: index.handlerDisconnect
+        CodeUri: ./src
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !GetAtt WebsocketsTable.TableName
+
+  # Function to delete a connection to the db
+  OnMessageLambdaFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+        Runtime: nodejs10.x
+        Handler: index.handlerOnMessage
+        CodeUri: ./src
+        Policies:
+          - DynamoDBCrudPolicy:
+              TableName:
+                !GetAtt WebsocketsTable.TableName
+
+  
+  # Creates a dynamodb table to save the connection ids
+  WebsocketsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+        TableName: websockets-table
+        AttributeDefinitions:
+            -   AttributeName: connectionid
+                AttributeType: S
+        KeySchema:
+            -   AttributeName: connectionid
+                KeyType: HASH
+        ProvisionedThroughput:
+            ReadCapacityUnits: 5
+            WriteCapacityUnits: 5
+  
+  # Creates an api resource to use websockets
+  WebSocketApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: WebSocketApi
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: "$request.body.action"
+
+  # Route to connect the $connect key to a lambda
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: "$connect"
+      AuthorizationType: NONE
+      OperationName: ConnectRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref ConnectIntegration
+
+  # Route to connect the $disconnect key to a lambda
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: "$connect"
+      AuthorizationType: NONE
+      OperationName: DisconnectRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref DisconnectIntegration
+
+  # Route to connect the onMessage key to a lambda
+  OnMessageRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocketApi
+      RouteKey: "onMessage"
+      AuthorizationType: NONE
+      OperationName: OnMessageRoute
+      Target: !Join
+        - '/'
+        - - 'integrations'
+          - !Ref OnMessageIntegration
+
+  # Integration of the Route to $connect
+  ConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      Description: Connect integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ConnectLambdaFunction.Arn}/invocations
+
+  # Integration of the Route to $disconnect
+  DisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      Description: Disconnect integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DisconnectLambdaFunction.Arn}/invocations
+
+  # Integration of the Route to onMessage
+  OnMessageIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocketApi
+      Description: OnMessage integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri: 
+        Fn::Sub:
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnMessageLambdaFunction.Arn}/invocations
+
+  # Deployment of the websockets API
+  Deployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - ConnectRoute
+      - DisconnectRoute
+      - OnMessageRoute
+    Properties:
+      ApiId: !Ref WebSocketApi
+
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: v1
+      Description: First version of the websockets api
+      DeploymentId: !Ref Deployment
+      ApiId: !Ref WebSocketApi
+
+  
