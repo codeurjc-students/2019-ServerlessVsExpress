@@ -6,11 +6,14 @@ Resources:
     Properties:
         Runtime: nodejs10.x
         Handler: index.handlerConnect
-        CodeUri: ./src
+        CodeUri: .
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
-                !GetAtt WebsocketsTable.TableName
+                !Ref WebsocketsTable
+        Environment:
+          Variables:
+            TABLE_NAME: !Ref WebsocketsTable
 
   # Function to delete a connection to the db
   DisconnectLambdaFunction:
@@ -18,11 +21,14 @@ Resources:
     Properties:
         Runtime: nodejs10.x
         Handler: index.handlerDisconnect
-        CodeUri: ./src
+        CodeUri: .
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
-                !GetAtt WebsocketsTable.TableName
+                !Ref WebsocketsTable
+        Environment:
+          Variables:
+            TABLE_NAME: !Ref WebsocketsTable
 
   # Function to delete a connection to the db
   OnMessageLambdaFunction:
@@ -30,11 +36,20 @@ Resources:
     Properties:
         Runtime: nodejs10.x
         Handler: index.handlerOnMessage
-        CodeUri: ./src
+        CodeUri: .
         Policies:
           - DynamoDBCrudPolicy:
               TableName:
-                !GetAtt WebsocketsTable.TableName
+                !Ref WebsocketsTable
+          - Statement:
+            - Effect: Allow
+              Action:
+              - 'execute-api:ManageConnections'
+              Resource:
+              - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*'
+        Environment:
+          Variables:
+            TABLE_NAME: !Ref WebsocketsTable
 
   
   # Creates a dynamodb table to save the connection ids
@@ -60,12 +75,12 @@ Resources:
       ProtocolType: WEBSOCKET
       RouteSelectionExpression: "$request.body.action"
 
-  # Route to connect the $connect key to a lambda
+  # Route to connect the $connect
   ConnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref WebSocketApi
-      RouteKey: "$connect"
+      RouteKey: $connect
       AuthorizationType: NONE
       OperationName: ConnectRoute
       Target: !Join
@@ -73,12 +88,12 @@ Resources:
         - - 'integrations'
           - !Ref ConnectIntegration
 
-  # Route to connect the $disconnect key to a lambda
+  # Route to connect the $disconnect
   DisconnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
       ApiId: !Ref WebSocketApi
-      RouteKey: "$connect"
+      RouteKey: $disconnect
       AuthorizationType: NONE
       OperationName: DisconnectRoute
       Target: !Join
@@ -104,18 +119,17 @@ Resources:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
       ApiId: !Ref WebSocketApi
-      Description: Connect integration
+      Description: Connect Integration
       IntegrationType: AWS_PROXY
       IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ConnectLambdaFunction.Arn}/invocations
 
-  # Integration of the Route to $disconnect
   DisconnectIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
       ApiId: !Ref WebSocketApi
-      Description: Disconnect integration
+      Description: Disconnect Integration
       IntegrationType: AWS_PROXY
       IntegrationUri: 
         Fn::Sub:
@@ -131,6 +145,37 @@ Resources:
       IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnMessageLambdaFunction.Arn}/invocations
+
+  # Permissions to invoke functions
+  ConnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocketApi
+      - ConnectLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref ConnectLambdaFunction
+      Principal: apigateway.amazonaws.com
+
+  DisconnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocketApi
+      - DisconnectLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref DisconnectLambdaFunction
+      Principal: apigateway.amazonaws.com
+
+  OnMessagePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocketApi
+      - OnMessageLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnMessageLambdaFunction
+      Principal: apigateway.amazonaws.com
 
   # Deployment of the websockets API
   Deployment:

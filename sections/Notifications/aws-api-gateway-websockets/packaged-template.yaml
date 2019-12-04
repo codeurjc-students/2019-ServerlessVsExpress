@@ -1,0 +1,183 @@
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  ConnectLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs10.x
+      Handler: index.handlerConnect
+      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: WebsocketsTable
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: WebsocketsTable
+  DisconnectLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs10.x
+      Handler: index.handlerDisconnect
+      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: WebsocketsTable
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: WebsocketsTable
+  OnMessageLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Runtime: nodejs10.x
+      Handler: index.handlerOnMessage
+      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: WebsocketsTable
+      - Statement:
+        - Effect: Allow
+          Action:
+          - execute-api:ManageConnections
+          Resource:
+          - Fn::Sub: arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocketApi}/*
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: WebsocketsTable
+  WebsocketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: websockets-table
+      AttributeDefinitions:
+      - AttributeName: connectionid
+        AttributeType: S
+      KeySchema:
+      - AttributeName: connectionid
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  WebSocketApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: WebSocketApi
+      ProtocolType: WEBSOCKET
+      RouteSelectionExpression: $request.body.action
+  ConnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      RouteKey: $connect
+      AuthorizationType: NONE
+      OperationName: ConnectRoute
+      Target:
+        Fn::Join:
+        - /
+        - - integrations
+          - Ref: ConnectIntegration
+  DisconnectRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      RouteKey: $disconnect
+      AuthorizationType: NONE
+      OperationName: DisconnectRoute
+      Target:
+        Fn::Join:
+        - /
+        - - integrations
+          - Ref: DisconnectIntegration
+  OnMessageRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      RouteKey: onMessage
+      AuthorizationType: NONE
+      OperationName: OnMessageRoute
+      Target:
+        Fn::Join:
+        - /
+        - - integrations
+          - Ref: OnMessageIntegration
+  ConnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      Description: Connect Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ConnectLambdaFunction.Arn}/invocations
+  DisconnectIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      Description: Disconnect Integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DisconnectLambdaFunction.Arn}/invocations
+  OnMessageIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+      Description: OnMessage integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnMessageLambdaFunction.Arn}/invocations
+  ConnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+    - WebSocketApi
+    - ConnectLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: ConnectLambdaFunction
+      Principal: apigateway.amazonaws.com
+  DisconnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+    - WebSocketApi
+    - DisconnectLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: DisconnectLambdaFunction
+      Principal: apigateway.amazonaws.com
+  OnMessagePermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+    - WebSocketApi
+    - OnMessageLambdaFunction
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: OnMessageLambdaFunction
+      Principal: apigateway.amazonaws.com
+  Deployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+    - ConnectRoute
+    - DisconnectRoute
+    - OnMessageRoute
+    Properties:
+      ApiId:
+        Ref: WebSocketApi
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: v1
+      Description: First version of the websockets api
+      DeploymentId:
+        Ref: Deployment
+      ApiId:
+        Ref: WebSocketApi
