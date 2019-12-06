@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "deploy-complete": "npm run create-bucket && npm run sam-package && npm run sam-deploy",
-    "create-bucket": "aws s3api create-bucket --bucket franrobles8-websockets-bucket --create-bucket-configuration LocationConstraint=eu-west-3",
-    "sam-package": "sam package --template-file template.yaml --s3-bucket franrobles8-websockets-bucket --output-template-file packaged-template.yaml",
+    "create-bucket": "aws s3api create-bucket --bucket my-bucket --create-bucket-configuration LocationConstraint=eu-west-3",
+    "sam-package": "sam package --template-file template.yaml --s3-bucket my-bucket --output-template-file packaged-template.yaml",
     "sam-deploy": "sam deploy --template-file packaged-template.yaml --stack-name websockets-stack --capabilities CAPABILITY_IAM"
   },
   "author": "Francisco Robles",
