@@ -40,7 +40,7 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         2. [Background Tasks with Node.js + Express + RabbitMQ](sections/BackgroundTasks/nodejs-express-rabbitmq)
         3. [Background Tasks with AWS + S3 + SQS](sections/BackgroundTasks/aws-s3-sqs)
 
-- [ ] **Notifications/Websockets**
+- [x] **Notifications/Websockets**
     * Creating notifications for users making use of **Websockets**.
         1. [Comparative](sections/Notifications)
         2. [Notifications with Node.js + Socket.io (server and client)](sections/Notifications/nodejs-socket-io)
