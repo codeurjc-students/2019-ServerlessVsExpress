@@ -61,7 +61,6 @@ This project is an **auction simulator**, so, you should be able to **make a bid
 
 ### Requirements
 - **Nodejs** [Download](https://nodejs.org/es/download/)
-- A REST consumer app like **POSTMAN** [Download](https://www.getpostman.com/downloads/)
 - **AWS SAM CLI** (You will need to have an **AWS account**). Follow these instructions to install it from the official docs: [Instructions](https://docs.aws.amazon.com/es_es/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 - **AWS SDK for Javascript** Follow this two [Installation](https://aws.amazon.com/es/sdk-for-node-js/) steps to install it.
 
