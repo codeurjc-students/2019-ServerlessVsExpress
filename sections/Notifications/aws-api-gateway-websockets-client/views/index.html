@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Websocket Notification app</title>
+        <link rel="stylesheet" type="text/css" href="/styles/auction.css">
+    </head>
+    <body>
+        <h2 id="title-auction">Auction - Place your bids!</h2>
+        <div id="auction">
+            <div id="auction-container">
+                <div class="item-auction-container">
+                    <span id="current-max-bid">
+                        0.0 €
+                    </span>
+                </div>
+                <form id="form-auction">
+                    <input id="bid-input" type="number" autocomplete="off" placeholder="1234" step="0.01" />
+                    <button>Send bid</button>
+                </form>
+            </div>
+            <div id="bids-container-history">
+                <h3>Bids history</h3>
+                <div id="bids">
+                    <ul id="bids-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            function createUniqueid(){
+                var dt = new Date().getTime();
+                var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = (dt + Math.random()*16)%16 | 0;
+                    dt = Math.floor(dt/16);
+                    return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+                });
+                return uuid;
+            }
+
+            let Socket = new WebSocket("wss://xxxxxxxxxx.execute-api.eu-west-3.amazonaws.com/v1", []);
+            let form = document.querySelector("#form-auction");
+            let bids_list = document.querySelector("#bids-list");
+            let current_max_bid = document.querySelector("#current-max-bid");
+            const connection_id = createUniqueid();
+
+            if(form.addEventListener){
+                form.addEventListener("submit", e => {
+                    e.preventDefault();
+                    let bid_amount = document.querySelector("#bid-input").value;
+
+                    if(bid_amount !== "") {
+                        Socket.send(JSON.stringify({
+                            action: "onMessage", 
+                            data: {
+                                connection_id,
+                                bid_amount: bid_amount
+                            }
+                        }));
+                    }
+
+                    document.querySelector("#bid-input").value = "";
+                });
+            } else {
+                form.attachEvent("onsubmit", e => {
+                    e.preventDefault();
+                    let bid_amount = document.querySelector("#bid-input").value;
+                    
+                    if(bid_amount !== "") {
+                        Socket.send(JSON.stringify({
+                            action: "onMessage", 
+                            data: {
+                                connection_id,
+                                bid_amount: bid_amount
+                            }
+                        }));
+                    }
+
+                    document.querySelector("#bid-input").value = "";
+                });
+            }
+
+            Socket.onmessage = (evt) => {
+                let data = JSON.parse(evt.data);
+                let li = document.createElement('li');
+                li.appendChild(document.createTextNode(`${data.connection_id} made a bid of ${data.bid_amount}€`));
+                bids_list.insertBefore(li, bids_list.firstChild);
+                current_max_bid.textContent = `${data.bid_amount}€`;
+            };
+            
+        </script>
+    </body>
+</html>

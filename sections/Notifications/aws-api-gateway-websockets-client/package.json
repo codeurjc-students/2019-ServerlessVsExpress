@@ -1,0 +1,15 @@
+{
+  "name": "aws-api-gateway-websockets-client",
+  "version": "1.0.0",
+  "description": "Client side of the aws api gateway websockets app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
