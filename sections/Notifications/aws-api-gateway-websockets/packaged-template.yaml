@@ -5,7 +5,7 @@ Resources:
     Properties:
       Runtime: nodejs10.x
       Handler: index.handlerConnect
-      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      CodeUri: s3://franrobles8-websockets-bucket/3f6ec0512f5c24707dd4c2a6d1b65e4b
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
@@ -19,7 +19,7 @@ Resources:
     Properties:
       Runtime: nodejs10.x
       Handler: index.handlerDisconnect
-      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      CodeUri: s3://franrobles8-websockets-bucket/3f6ec0512f5c24707dd4c2a6d1b65e4b
       Policies:
       - DynamoDBCrudPolicy:
           TableName:
@@ -33,7 +33,7 @@ Resources:
     Properties:
       Runtime: nodejs10.x
       Handler: index.handlerOnMessage
-      CodeUri: s3://franrobles8-websockets-bucket/a2a60f92610a4309d7347f55f7e2d1a9
+      CodeUri: s3://franrobles8-websockets-bucket/3f6ec0512f5c24707dd4c2a6d1b65e4b
       Policies:
       - DynamoDBCrudPolicy:
           TableName:

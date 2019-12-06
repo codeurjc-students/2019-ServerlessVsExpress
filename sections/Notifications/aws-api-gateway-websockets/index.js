@@ -139,7 +139,7 @@ const sendMessage = (event, connectionId) => {
 
     const params = {
         ConnectionId: connectionId,
-        Data: data
+        Data: JSON.stringify(data)
     };
 
     return apigwManagementApi.postToConnection(params).promise();
