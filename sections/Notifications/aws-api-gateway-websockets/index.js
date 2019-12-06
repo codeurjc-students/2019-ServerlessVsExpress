@@ -46,8 +46,7 @@ exports.handlerDisconnect = async (event, context, callback) => {
             body: `Error disconnecting`
         };
         callback(null, response);
-    }
-        
+    }  
 };
 
 exports.handlerOnMessage = async (event, context, callback) => {  
@@ -67,8 +66,6 @@ exports.handlerOnMessage = async (event, context, callback) => {
         };
         callback(null, response);
     }
-    
-    
 };
 
 
