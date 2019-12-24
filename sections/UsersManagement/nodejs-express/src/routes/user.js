@@ -2,9 +2,16 @@ const express = require('express');
 const routes = express.Router();
 const UserController = require('../controllers/UserController');
 const jwtCheck = require('../middleware/jwtCheck');
+const roleCheck = require('../middleware/roleCheck');
 
+// Private routes
 routes.get('/', [jwtCheck], UserController.getAllUsers);
 routes.get('/:id([0-9]+)', [jwtCheck], UserController.getUser);
+
+// Private routes with admin privileges
+routes.get('/admins', [jwtCheck, roleCheck], UserController.getAdmins);
+
+// Public routes
 routes.post('/register', UserController.register);
 routes.get('/activate?:activation_token', UserController.activate);
 

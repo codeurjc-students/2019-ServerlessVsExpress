@@ -2,6 +2,8 @@
 // Connection to the database
 require('../db/database');
 
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const UserModel = require('../models/user');
 const bcrypt = require('bcrypt');
 const config = require('../config/config');
@@ -12,10 +14,10 @@ class UserController {
     static getAllUsers = (req, res) => {
         const mockedUsers = [
             {
-                username: "fran"
+                email: "franrobles8@gmail.com"
             },
             {
-                username: "ana"
+                email: "ana@gmail.com"
             }
         ];
         res.status(200).send(mockedUsers);
@@ -26,6 +28,16 @@ class UserController {
             username: "fran"
         };
         res.status(200).send(mockedUser);
+    };
+
+    static getAdmins = (req, res) => {
+        // Search admin users hidding their password
+        UserModel.find({role: 'ADMIN'}, '-password',  (err, users) => {
+            if(err) {
+                return res.status(401).send(`Unauthorized operation`);
+            }
+            return res.status(200).send(users);
+        });
     };
 
     static register = (req, res) => {
@@ -40,6 +52,8 @@ class UserController {
         const newUser = new UserModel({
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 10),
+            firstName: req.body.firstName ? req.body.firstName : '',
+            lastName: req.body.lastName ? req.body.lastName : '',
             role: "USER"
         });
 
@@ -51,11 +65,10 @@ class UserController {
             // The user has been created, but the account needs to be activated with a link! 
             // We'll use a fake smtp client/server for developing purposes
             const transporter = nodemailer.createTransport({
-                host: 'smtp.ethereal.email',
-                port: 587,
+                service: 'Gmail',
                 auth: {
-                    user: 'jayde.morissette6@ethereal.email',
-                    pass: 'bkEWG7D9eYUgGwTwJk'
+                    user: 'expressvsserverless@gmail.com',
+                    pass: 'expressvsserverless1234'
                 }
             });
 
@@ -63,13 +76,14 @@ class UserController {
 
             // send mail with defined transport object
             transporter.sendMail({
-                from: '"Users management app" <usersmanagementapp@example.com>', // sender address
+                from: '"Users management app" <expressvsserverless@gmail.com>', // sender address
                 to: newUser.email, // receiver
                 subject: "Welcome!", // Subject line
                 text: "You are almost done, we just need you to click on this link:", // plain text body
-                html: `<a href="http://localhost:3000/user/activate?activation_token=${encodeURI(activation_token)}">http://localhost:3000/user/activate?activation_token=${encodeURI(activation_token)}</a>` // html body
+                html: `<a href="http://localhost:${config.SERVER_PORT}/user/activate?activation_token=${encodeURI(activation_token)}">http://localhost:${config.SERVER_PORT}/user/activate?activation_token=${encodeURI(activation_token)}</a>` // html body
             }, (err, info) => {
                 if(err) {
+                    console.log(err);
                     return res.status(400).send(err);
                 }
             });
@@ -95,7 +109,7 @@ class UserController {
                 if(err) {
                     return res.status(400).send();
                 }
-                res.status(200).send({message: 'Account activated'});
+                res.status(200).send(`Your account has been activated! Click here to go to the login page <a href="http://localhost:3000/login">http://localhost:3000/login</a>`);
             });
           });
     };
