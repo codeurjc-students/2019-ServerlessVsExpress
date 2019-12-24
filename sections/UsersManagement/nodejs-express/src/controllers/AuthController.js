@@ -23,12 +23,21 @@ class AuthController {
         // Search in the database
         UserModel.findOne({email: email}, (err, user_db) => {
             if(err) {
+                return res.status(401).send(err);
+            }
+            
+            if(!user_db) {
                 return res.status(401).send({message: `User doesn't exist`});
             }
 
             // If user exists, we compare the encripted password with the one in the database
             bcrypt.compare(password, user_db.password, (err, result) => {
                 if(err) {
+                    return res.status(401).send(err);
+                }
+
+                // If password doesn't match (result === false), we sent an error
+                if(!result) {
                     return res.status(401).send({message: `Wrong password`});
                 }
 
@@ -52,7 +61,8 @@ class AuthController {
     };
 
     static refreshToken = (req, res) => {
-        const refresh_token = req.headers["refresh_token"];
+        const array_refresh_token = req.headers.authorization;
+        const refresh_token = array_refresh_token.split(" ")[1];
 
         // If refresh token doesn't exist, they must login again to create new tokens
         if(!refresh_token) {
@@ -67,6 +77,27 @@ class AuthController {
 
             // If refresh_token hasn't expired, sign a new access_token
             const access_token = jwt.sign({ email: decoded.email }, SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
+
+            res.status(201).send({
+                access_token
+            });
+        });
+    };
+
+    static checkValidToken = (req, res) => {
+        const array_access_token = req.headers.authorization;
+        const access_token = array_access_token.split(" ")[1];
+
+        // If refresh token doesn't exist, they must login again to create new tokens
+        if(!access_token) {
+            return res.status(401).send({message: "Unauthorized operation."});
+        }
+
+        // If refresh_token exists, verify that hasn't expired
+        jwt.verify(access_token, SECRET, (err, decoded) => {
+            if(err) {
+                return res.status(401).send(err);
+            }
 
             res.status(201).send({
                 access_token

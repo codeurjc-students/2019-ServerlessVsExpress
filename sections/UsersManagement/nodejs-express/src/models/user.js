@@ -11,6 +11,8 @@ const UserModelSchema = new Schema({
         required: true
     },
     password: String, // It should be inserted encrypted
+    firstName: String,
+    lastName: String,
     role: {
         type: String,
         enum: ['ADMIN', 'USER']

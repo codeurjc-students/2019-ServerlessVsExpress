@@ -1,0 +1,5 @@
+export const LOADING = 'LOADING';
+export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
+export const ERROR_LOGIN = 'ERROR_LOGIN';
+export const ERROR_DISMISS = 'ERROR_DISMISS';
+export const SUCCESS_LOGOUT = 'SUCCESS_LOGOUT';
