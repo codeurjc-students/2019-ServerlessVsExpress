@@ -18,7 +18,7 @@ button:focus {outline:0;}
     border-bottom: 2px solid #ff0000;
     ul {
         list-style: none;
-        width: 80%;
+        width: 70%;
         li, a, a:visited {
             color: white;
             font-size: 16px;
@@ -40,7 +40,7 @@ button:focus {outline:0;}
     justify-content: flex-end;
     align-items: center;
     height: 100%;
-    width: 20%;
+    width: 30%;
     padding-right: 15px;
     .button-logout {
         background: none;
@@ -52,6 +52,9 @@ button:focus {outline:0;}
         :hover {
             color: #efefef;
         }
+    }
+    .top-navigator-email {
+        margin-left: 30px;
     }
 }
 
@@ -65,10 +68,20 @@ button:focus {outline:0;}
 }
 
 .users-content {
-    background: white;
     width: calc(100% - 30px);
-    height: 500px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 30px;
+    .usersTable {
+        width: 100%;
+    }
+
+    .btn-activate-user {
+        background: none;
+        border: none;
+        color: #5454bb;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 }

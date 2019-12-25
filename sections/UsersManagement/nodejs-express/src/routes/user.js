@@ -10,6 +10,7 @@ routes.get('/:id([0-9]+)', [jwtCheck], UserController.getUser);
 
 // Private routes with admin privileges
 routes.get('/admins', [jwtCheck, roleCheck], UserController.getAdmins);
+routes.put('/activate-user-from-admin', [jwtCheck, roleCheck], UserController.activateUserFromAdmin);
 
 // Public routes
 routes.post('/register', UserController.register);

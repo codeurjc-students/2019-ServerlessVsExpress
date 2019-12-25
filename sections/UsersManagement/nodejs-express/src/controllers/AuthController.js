@@ -52,7 +52,8 @@ class AuthController {
                 const refresh_token = jwt.sign(jwtPayload, REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });
 
                 res.send({
-                    email,
+                    email: user_db.email,
+                    role: user_db.role,
                     access_token,
                     refresh_token
                 });
