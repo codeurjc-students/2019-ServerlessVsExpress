@@ -12,15 +12,12 @@ const jwt = require('jsonwebtoken');
 
 class UserController {
     static getAllUsers = (req, res) => {
-        const mockedUsers = [
-            {
-                email: "franrobles8@gmail.com"
-            },
-            {
-                email: "ana@gmail.com"
+        UserModel.find({}, '-password',  (err, users) => {
+            if(err) {
+                return res.status(401).send(`Unauthorized operation`);
             }
-        ];
-        res.status(200).send(mockedUsers);
+            return res.status(200).send(users);
+        });
     };
 
     static getUser = (req, res) => {
@@ -112,6 +109,28 @@ class UserController {
                 res.status(200).send(`Your account has been activated! Click here to go to the login page <a href="http://localhost:3000/login">http://localhost:3000/login</a>`);
             });
           });
+    };
+
+    static activateUserFromAdmin = (req, res) => {
+        if(req.body && req.body.email) {
+            if(req.body.activate){
+                UserModel.findOneAndUpdate({email: req.body.email}, {$set:{activated: "ACTIVE"}}, (err, doc) => {
+                    if(err) {
+                        return res.status(400).send();
+                    }
+                    res.status(200).send({message: `The account with email ${req.body.email} has been activated`});
+                });
+            } else {
+                UserModel.findOneAndUpdate({email: req.body.email}, {$set:{activated: "PENDING"}}, (err, doc) => {
+                    if(err) {
+                        return res.status(400).send();
+                    }
+                    res.status(200).send({message: `The account with email ${req.body.email} has been deactivated`});
+                });
+            }
+        } else {
+            return res.status(400).send();
+        }
     };
 }
 

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import { logout } from '../actions/loginActions';
 
+import Badge from '@material-ui/core/Badge';
+
 class TopNavigator extends Component {
 
     handleLogout = () => {
@@ -19,7 +21,7 @@ class TopNavigator extends Component {
                     <li><a href="/users">Users</a></li>
                 </ul>
                 <div className="user-section">
-                    Hi, {user.email}! <button className="button-logout" onClick={this.handleLogout}>Logout</button>
+                    <Badge badgeContent={user.role} color="primary"></Badge> <span className="top-navigator-email">Hi, {user.email}!</span><button className="button-logout" onClick={this.handleLogout}>Logout</button>
                 </div>
             </div>
         );

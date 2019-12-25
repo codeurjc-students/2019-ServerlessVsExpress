@@ -15,7 +15,8 @@ export const login = (email, password, rememberUser) => {
         try {
             const response = API.authenticate(email, password);
             response.then((res) => {
-                dispatch(loginSuccessful({email: res.data.email, access_token: res.data.access_token, refresh_token: res.data.refresh_token, rememberUser}));
+                console.log(res);
+                dispatch(loginSuccessful({email: res.data.email, role: res.data.role, access_token: res.data.access_token, refresh_token: res.data.refresh_token, rememberUser}));
                 dispatch(loginLoading(false));
             }).catch((error) => {
                 console.log(error.message);

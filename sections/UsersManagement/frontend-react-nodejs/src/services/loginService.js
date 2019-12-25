@@ -1,9 +1,6 @@
 import axios from 'axios';
-
 import Cookies from 'universal-cookie';
-
 const cookies = new Cookies();
-
 const BASE_URL = 'http://localhost:4000';
 
 export function authenticate(email, password) {

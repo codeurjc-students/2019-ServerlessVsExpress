@@ -14,6 +14,7 @@ const initialState = {
     loading: false,
     user: {
         email: cookies.get('email'),
+        role: cookies.get('role'),
         access_token: cookies.get('access_token'),
         refresh_token: cookies.get('refresh_token')
         } || {},
@@ -32,6 +33,7 @@ export default function login(state = initialState, action = {}) {
             cookies.set('access_token', action.user.access_token, {path: '/'});
             cookies.set('refresh_token', action.user.refresh_token, {path: '/'});
             cookies.set('email', action.user.email, {path: '/'});
+            cookies.set('role', action.user.role, {path: '/'});
             
             return {
                 ...state,
