@@ -68,7 +68,9 @@ As we would like to have the frontend on hand, and interact with it, we should g
 
 1. Once we first enter the app, we will be redirected to the login panel:
 
-![Login panel](./img/node/login-panel.png)
+<p align="center">
+  <img alt="Login panel" src="./img/node/login-panel.png">
+</p>
 
 2. There, as we don't have any users yet, we need to register our first user. To achieve that, click on the bottom of the login panel where the link says **"Don't have an account? Sign Up"**. Done this step, you will get the register panel, which you must complete to register the user:
 
