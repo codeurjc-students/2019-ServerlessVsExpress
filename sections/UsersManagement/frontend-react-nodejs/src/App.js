@@ -7,6 +7,11 @@ import Register from './components/Register';
 import Main from './components/Main';
 import ActivationMessage from './components/ActivationMessage';
 import UsersSection from './components/UsersSection';
+import TopNavigator from './components/TopNavigator';
+
+import {
+    checkValidToken
+} from './actions/loginActions';
 
 const PrivateRoute = ({ ...props }) => {
     if(props.isUserLogged) {
@@ -17,12 +22,17 @@ const PrivateRoute = ({ ...props }) => {
 };
 
 class App extends Component {
+    componentDidMount() {
+        this.props.checkValidToken();
+    }
+
     render() {
         let { user } = this.props;
         const userLogged = user && user.email;
 
         return (
             <div className="App">
+                {userLogged ? <TopNavigator/> : []}
                 <Router>
                     <Switch>
                         <Route exact path="/login" component={Login} />
@@ -45,7 +55,7 @@ const mapStateToProps = (state /*, ownProps*/) => {
 };
 
 const mapDispatchToProps = {
-    
+    checkValidToken
 };
 
 export default connect(

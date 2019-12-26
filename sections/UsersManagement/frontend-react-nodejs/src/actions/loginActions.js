@@ -15,7 +15,6 @@ export const login = (email, password, rememberUser) => {
         try {
             const response = API.authenticate(email, password);
             response.then((res) => {
-                console.log(res);
                 dispatch(loginSuccessful({email: res.data.email, role: res.data.role, access_token: res.data.access_token, refresh_token: res.data.refresh_token, rememberUser}));
                 dispatch(loginLoading(false));
             }).catch((error) => {
@@ -73,4 +72,15 @@ export const setErrorLoginFalse = () => {
         type: ERROR_DISMISS,
         errorLogin: false
     }
+};
+
+export const checkValidToken = () => {
+    return (dispatch) => {
+        API.checkValidToken()
+        .then(res => {
+        })
+        .catch(err => {
+            dispatch(logoutSucessful());
+        });
+    };
 };

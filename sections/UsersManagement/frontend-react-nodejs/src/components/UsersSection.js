@@ -12,8 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-import TopNavigator from '../components/TopNavigator';
-
 import { 
     getUsers,
     activateUser 
@@ -57,12 +55,10 @@ class UsersSection extends Component {
                 container
                 direction="row"
                 justify="center"
-                //alignItems="center"
                 className='main-section'
             >
                 <CssBaseline/>
                 <div className='main-container'>
-                    <TopNavigator/>
                     <div className="users-content">
                         <h2>Users registered</h2>
                         <TableContainer component={Paper}>

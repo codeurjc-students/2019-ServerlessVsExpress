@@ -5,8 +5,6 @@ import React, { Component } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 
-import TopNavigator from '../components/TopNavigator';
-
 class Main extends Component {
     render() {
         return (
@@ -14,12 +12,10 @@ class Main extends Component {
                 container
                 direction="row"
                 justify="center"
-                //alignItems="center"
                 className='main-section'
             >
                 <CssBaseline/>
                 <div className='main-container'>
-                    <TopNavigator/>
                     <div className="home-content">
                         Navigate to the sections to test roles (User role & Admin role)
                     </div>
