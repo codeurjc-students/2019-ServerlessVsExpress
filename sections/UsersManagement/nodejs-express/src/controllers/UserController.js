@@ -20,13 +20,6 @@ class UserController {
         });
     };
 
-    static getUser = (req, res) => {
-        const mockedUser = {
-            username: "fran"
-        };
-        res.status(200).send(mockedUser);
-    };
-
     static getAdmins = (req, res) => {
         // Search admin users hidding their password
         UserModel.find({role: 'ADMIN'}, '-password',  (err, users) => {

@@ -6,7 +6,6 @@ const roleCheck = require('../middleware/roleCheck');
 
 // Private routes
 routes.get('/', [jwtCheck], UserController.getAllUsers);
-routes.get('/:id([0-9]+)', [jwtCheck], UserController.getUser);
 
 // Private routes with admin privileges
 routes.get('/admins', [jwtCheck, roleCheck], UserController.getAdmins);
