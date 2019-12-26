@@ -74,21 +74,29 @@ As we would like to have the frontend on hand, and interact with it, we should g
 
 2. There, as we don't have any users yet, we need to register our first user. To achieve that, click on the bottom of the login panel where the link says **"Don't have an account? Sign Up"**. Done this step, you will get the register panel, which you must complete to register the user:
 
-![Register panel](./img/node/register-panel.png)
+<p align="center">
+  <img alt="Register panel" src="./img/node/register-panel.png">
+</p>
 
 3. When your new user has been registered, you also need to **activate your account**. This step can be completed going to the email you have entered, and clicking on the url that has been sent. This url contains a **unique activation token**, that will activate the user once clicked:
 
-![Activation url](./img/node/activation-url.png)
+<p align="center">
+  <img alt="Activation url" src="./img/node/activation-url.png">
+</p>
 
 4. The next step would be going to the login panel again ([http://localhost:3000/login](http://localhost:3000/login)), and using the information you provided before.
 
 5. By this time, you should be inside the app. Use the navigation menu to go to **Users** section. There, you will see all the users that have been registered in the app:
 
-![Users registered - admin role](./img/node/users-admin-role.png)
+<p align="center">
+  <img alt="Users registered - admin role" src="./img/node/users-admin-role.png">
+</p>
 
 6. As you have might noticed, at right on the top bar, there is your **email**, the **user role** associated and a **logout** link. I've created two different possible roles (**USER** and **ADMIN**). By default, when a user registers, the USER role is asigned to it. You can change the role directly on the mongodb database, writing "ADMIN" on your role field. If you log in with a user whose role is ADMIN, apart from seeing the users registered, you will also be able to **activate/deactivate** the users you want:
 
-![Admin role example](./img/node/admin-role.png)
+<p align="center">
+  <img alt="Admin role example" src="./img/node/admin-role.png">
+</p>
 
 ---
 
