@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cognito Users Pool Authentication + API with protected routes
+Parameters:
+  CognitoUserPoolName:
+    Type: String
+    Default: UsersManagementUserPool
+  CognitoUserPoolClientName:
+    Type: String
+    Default: UsersManagementPoolClient
+Resources:
+  UsersManagementApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Dev
+      Cors: '''*'''
+      Auth:
+        DefaultAuthorizer: UsersManagementAuthorizer
+        Authorizers:
+          UsersManagementAuthorizer:
+            UserPoolArn:
+              Fn::GetAtt:
+              - UsersManagementUserPool
+              - Arn
+  UsersManagementLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://users-management-bucket/258b95c818a12e21c6111d4ce123fc60
+      Handler: index.usersHandler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_CLIENT_ID:
+            Ref: UsersManagementCognitoUserPoolClient
+      Events:
+        GetUsers:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user
+            Method: GET
+            Auth:
+              Authorizer: NONE
+        CreateUser:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user/register
+            Method: POST
+            Auth:
+              Authorizer: NONE
+  UsersManagementUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName:
+        Ref: CognitoUserPoolName
+      VerificationMessageTemplate:
+        DefaultEmailOption: CONFIRM_WITH_LINK
+      Policies:
+        PasswordPolicy:
+          TemporaryPasswordValidityDays: 1
+          MinimumLength: 6
+          RequireNumbers: true
+      UsernameAttributes:
+      - email
+      Schema:
+      - AttributeDataType: String
+        Name: email
+        Required: true
+      - AttributeDataType: String
+        Name: firstname
+        Required: false
+      - AttributeDataType: String
+        Name: lastname
+        Required: false
+      EmailVerificationSubject: Verify your account
+      EmailVerificationMessage: Welcome to the Users Management App. Verify your account
+        to get access using {####}.
+  UsersManagementCognitoUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId:
+        Ref: UsersManagementUserPool
+      ClientName:
+        Ref: CognitoUserPoolClientName
+      GenerateSecret: false
+      PreventUserExistenceErrors: ENABLED
+      RefreshTokenValidity: 20
+Outputs:
+  Region:
+    Description: Region
+    Value:
+      Ref: AWS::Region
+  ApiUrl:
+    Description: API Endpoint for dev environment
+    Value:
+      Fn::Sub: https://${UsersManagementApi}.execute-api.${AWS::Region}.amazonaws.com/Dev/
