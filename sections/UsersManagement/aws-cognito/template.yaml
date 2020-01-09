@@ -10,6 +10,10 @@ Parameters:
   CognitoUserPoolClientName:
     Type: String
     Default: UsersManagementPoolClient
+  
+  UserpoolDomainPrefix:
+    Type: String
+    Default: franrobles8-users-management-1
 
 Resources:
   UsersManagementApi:
@@ -23,7 +27,7 @@ Resources:
           UsersManagementAuthorizer:
             UserPoolArn: !GetAtt UsersManagementUserPool.Arn
 
-  UsersManagementLambda:
+  UsersManagementLambdaAuth:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./src
@@ -32,36 +36,41 @@ Resources:
       Environment:
         Variables:
           COGNITO_USER_POOL_CLIENT_ID: !Ref UsersManagementCognitoUserPoolClient
+          COGNITO_USER_POOL_ID: !Ref UsersManagementUserPool
       Events:
-        GetUsers:
-          Type: Api
-          Properties:
-            RestApiId: !Ref UsersManagementApi
-            Path: /user
-            Method: GET
-            # This route doesn't need authorization
-            Auth:
-              Authorizer: NONE 
         CreateUser:
           Type: Api
           Properties:
             RestApiId: !Ref UsersManagementApi
-            Path: /user/register
+            Path: /auth/register
             Method: POST
             Auth:
-              Authorizer: NONE 
+              Authorizer: NONE
+        LoginUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref UsersManagementApi
+            Path: /auth/login
+            Method: POST
+            Auth:
+              Authorizer: NONE
+        
   UsersManagementUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
         UserPoolName: !Ref CognitoUserPoolName
         VerificationMessageTemplate:
           DefaultEmailOption: CONFIRM_WITH_LINK
+          EmailSubject: 'Activation link'
+          EmailSubjectByLink: Click on the link to activate your acount
         Policies:
             PasswordPolicy:
               TemporaryPasswordValidityDays: 1
               MinimumLength: 6
               RequireNumbers: true
         UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
           - email
         Schema:
           - AttributeDataType: String
@@ -73,13 +82,7 @@ Resources:
           - AttributeDataType: String
             Name: lastname
             Required: false
-          
-        #EmailConfiguration:
-          #EmailSendingAccount: COGNITO_DEFAULT
-          #From: AWS Cognito Users Management <serverlessvsexpress@gmail.com>
-          # SourceArn: 'arn:aws:ses:#{AWS::Region}:#{AWS::AccountId}:identity/${env:SES_EMAIL}'
-        EmailVerificationSubject: Verify your account
-        EmailVerificationMessage: Welcome to the Users Management App. Verify your account to get access using {####}.
+
   UsersManagementCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -88,6 +91,20 @@ Resources:
       GenerateSecret: false
       PreventUserExistenceErrors: ENABLED
       RefreshTokenValidity: 20
+      #AllowedOAuthFlows: 
+        #- token
+      #AllowedOAuthFlowsUserPoolClient: true
+      #AllowedOAuthScopes: 
+        #- email
+      ExplicitAuthFlows: 
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Sub '${UserpoolDomainPrefix}'
+      UserPoolId: !Ref UsersManagementUserPool
 
 Outputs:
   Region:
