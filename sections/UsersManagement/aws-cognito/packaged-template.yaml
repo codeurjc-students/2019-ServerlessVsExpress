@@ -8,6 +8,9 @@ Parameters:
   CognitoUserPoolClientName:
     Type: String
     Default: UsersManagementPoolClient
+  UserpoolDomainPrefix:
+    Type: String
+    Default: franrobles8-users-management-1
 Resources:
   UsersManagementApi:
     Type: AWS::Serverless::Api
@@ -22,32 +25,34 @@ Resources:
               Fn::GetAtt:
               - UsersManagementUserPool
               - Arn
-  UsersManagementLambda:
+  UsersManagementLambdaAuth:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://users-management-bucket/258b95c818a12e21c6111d4ce123fc60
+      CodeUri: s3://users-management-bucket/9974ae0a1350d2baa61a4b9dcfe50db5
       Handler: index.usersHandler
       Runtime: nodejs10.x
       Environment:
         Variables:
           COGNITO_USER_POOL_CLIENT_ID:
             Ref: UsersManagementCognitoUserPoolClient
+          COGNITO_USER_POOL_ID:
+            Ref: UsersManagementUserPool
       Events:
-        GetUsers:
-          Type: Api
-          Properties:
-            RestApiId:
-              Ref: UsersManagementApi
-            Path: /user
-            Method: GET
-            Auth:
-              Authorizer: NONE
         CreateUser:
           Type: Api
           Properties:
             RestApiId:
               Ref: UsersManagementApi
-            Path: /user/register
+            Path: /auth/register
+            Method: POST
+            Auth:
+              Authorizer: NONE
+        LoginUser:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /auth/login
             Method: POST
             Auth:
               Authorizer: NONE
@@ -58,12 +63,16 @@ Resources:
         Ref: CognitoUserPoolName
       VerificationMessageTemplate:
         DefaultEmailOption: CONFIRM_WITH_LINK
+        EmailSubject: Activation link
+        EmailSubjectByLink: Click on the link to activate your acount
       Policies:
         PasswordPolicy:
           TemporaryPasswordValidityDays: 1
           MinimumLength: 6
           RequireNumbers: true
       UsernameAttributes:
+      - email
+      AutoVerifiedAttributes:
       - email
       Schema:
       - AttributeDataType: String
@@ -75,9 +84,6 @@ Resources:
       - AttributeDataType: String
         Name: lastname
         Required: false
-      EmailVerificationSubject: Verify your account
-      EmailVerificationMessage: Welcome to the Users Management App. Verify your account
-        to get access using {####}.
   UsersManagementCognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
@@ -88,6 +94,16 @@ Resources:
       GenerateSecret: false
       PreventUserExistenceErrors: ENABLED
       RefreshTokenValidity: 20
+      ExplicitAuthFlows:
+      - ALLOW_USER_PASSWORD_AUTH
+      - ALLOW_REFRESH_TOKEN_AUTH
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain:
+        Fn::Sub: ${UserpoolDomainPrefix}
+      UserPoolId:
+        Ref: UsersManagementUserPool
 Outputs:
   Region:
     Description: Region
