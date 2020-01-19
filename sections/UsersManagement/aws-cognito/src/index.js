@@ -1,6 +1,9 @@
 const AuthController = require('./controllers/AuthController');
+const UserController = require('./controllers/UserController');
 
-exports.usersHandler = async (event, context, callback) => {
+exports.authHandler = async (event, context, callback) => {
+    console.log(event);
+    console.log(context);
     switch (event.httpMethod) {
         case 'GET':
                 sendResponse(200, `Received ${event.httpMethod} method!`, callback);
@@ -22,9 +25,19 @@ exports.usersHandler = async (event, context, callback) => {
                             try{
                                 const data = JSON.parse(event.body);
                                 const res = await AuthController.login(data);
+                                sendResponse(200, res, callback);
+                            } catch(err) {
+                                sendResponse(err.statusCode, err.message, callback);
+                            }
+                        break;
+                    case '/user/info':
+                            try{
+                                const data = JSON.parse(event.body);
+                                const res = await UserController.getUserInfo(data);
                                 console.log(res);
                                 sendResponse(200, res, callback);
                             } catch(err) {
+                                console.log(err);
                                 sendResponse(err.statusCode, err.message, callback);
                             }
                         break;
