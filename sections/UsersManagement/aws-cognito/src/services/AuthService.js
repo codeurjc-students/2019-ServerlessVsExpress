@@ -22,11 +22,38 @@ exports.register = (data) => {
             ]
         };
 
-        cognitoidentityserviceprovider.signUp(params, (err, dataSignUp) => {
+        cognitoidentityserviceprovider.signUp(params, async (err, dataSignUp) => {
             if(err) {
                 reject(err);
             } else {
-                resolve(dataSignUp);
+                // Add user to group 'users group'
+                try {
+                    await addUserToGroup(params.Username);
+                    resolve(dataSignUp);
+                } catch(err) {
+                    reject(err);
+                }
+                
+            }
+        });
+    });
+};
+
+const addUserToGroup = (username) => {
+    return new Promise((resolve, reject) => {
+        const params = {
+            GroupName: process.env.COGNITO_DEFAULT_USER_GROUP_NAME,
+            UserPoolId: process.env.COGNITO_USER_POOL_ID,
+            Username: username
+        };
+        
+        cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+            if (err) {
+                console.log("Error adding user to group");
+                reject(err);
+            } else {
+                console.log("Success adding user to group");
+                resolve(data);
             }
         });
     });

@@ -15,7 +15,7 @@ Resources:
   UsersManagementApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: Dev
+      StageName: dev
       Cors: '''*'''
       Auth:
         DefaultAuthorizer: UsersManagementAuthorizer
@@ -25,11 +25,11 @@ Resources:
               Fn::GetAtt:
               - UsersManagementUserPool
               - Arn
-  UsersManagementLambdaAuth:
+  UsersManagementLambdaAuthentication:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://users-management-bucket/9974ae0a1350d2baa61a4b9dcfe50db5
-      Handler: index.usersHandler
+      CodeUri: s3://users-management-bucket/6eaf5330264e0ba8d45c2923459f6d39
+      Handler: index.authHandler
       Runtime: nodejs10.x
       Environment:
         Variables:
@@ -37,6 +37,23 @@ Resources:
             Ref: UsersManagementCognitoUserPoolClient
           COGNITO_USER_POOL_ID:
             Ref: UsersManagementUserPool
+          COGNITO_DEFAULT_USER_GROUP_NAME:
+            Ref: UserPoolGroupUsers
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - cognito-idp:AdminAddUserToGroup
+          - cognito-idp:AdminRemoveUserFromGroup
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:cognito-idp:'
+              - Ref: AWS::Region
+              - ':'
+              - Ref: AWS::AccountId
+              - :userpool/*
       Events:
         CreateUser:
           Type: Api
@@ -56,6 +73,13 @@ Resources:
             Method: POST
             Auth:
               Authorizer: NONE
+        GetUserInfo:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user/info
+            Method: POST
   UsersManagementUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -64,7 +88,7 @@ Resources:
       VerificationMessageTemplate:
         DefaultEmailOption: CONFIRM_WITH_LINK
         EmailSubject: Activation link
-        EmailSubjectByLink: Click on the link to activate your acount
+        EmailSubjectByLink: Click on the link to activate your account
       Policies:
         PasswordPolicy:
           TemporaryPasswordValidityDays: 1
@@ -104,6 +128,20 @@ Resources:
         Fn::Sub: ${UserpoolDomainPrefix}
       UserPoolId:
         Ref: UsersManagementUserPool
+  UserPoolGroupUsers:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: Group for basic roles
+      GroupName: Users
+      UserPoolId:
+        Ref: UsersManagementUserPool
+  UserPoolGroupAdmins:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      Description: Group for admin roles
+      GroupName: Admins
+      UserPoolId:
+        Ref: UsersManagementUserPool
 Outputs:
   Region:
     Description: Region
@@ -112,4 +150,4 @@ Outputs:
   ApiUrl:
     Description: API Endpoint for dev environment
     Value:
-      Fn::Sub: https://${UsersManagementApi}.execute-api.${AWS::Region}.amazonaws.com/Dev/
+      Fn::Sub: https://${UsersManagementApi}.execute-api.${AWS::Region}.amazonaws.com/dev/
