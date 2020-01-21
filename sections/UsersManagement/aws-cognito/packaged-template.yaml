@@ -1,6 +1,13 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Cognito Users Pool Authentication + API with protected routes
+Globals:
+  Api:
+    Cors:
+      AllowMethods: '''GET,POST,OPTIONS,PUT,DELETE'''
+      AllowHeaders: '''content-type'''
+      AllowOrigin: '''*'''
+      AllowCredentials: '''*'''
 Parameters:
   CognitoUserPoolName:
     Type: String
@@ -28,7 +35,7 @@ Resources:
   UsersManagementLambdaAuthentication:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://users-management-bucket/6eaf5330264e0ba8d45c2923459f6d39
+      CodeUri: s3://users-management-bucket/302c513ffb2c4ad247b29e7410bed89d
       Handler: index.authHandler
       Runtime: nodejs10.x
       Environment:
@@ -73,6 +80,53 @@ Resources:
             Method: POST
             Auth:
               Authorizer: NONE
+        RefreshToken:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /auth/refresh-token
+            Method: POST
+            Auth:
+              Authorizer: NONE
+  UsersManagementLambdaUser:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://users-management-bucket/302c513ffb2c4ad247b29e7410bed89d
+      Handler: user.userHandler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_CLIENT_ID:
+            Ref: UsersManagementCognitoUserPoolClient
+          COGNITO_USER_POOL_ID:
+            Ref: UsersManagementUserPool
+          COGNITO_DEFAULT_USER_GROUP_NAME:
+            Ref: UserPoolGroupUsers
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - cognito-idp:listUsers
+          - cognito-idp:AdminEnableUser
+          - cognito-idp:AdminDisableUser
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:cognito-idp:'
+              - Ref: AWS::Region
+              - ':'
+              - Ref: AWS::AccountId
+              - :userpool/*
+      Events:
+        GetAllUsers:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user
+            Method: GET
         GetUserInfo:
           Type: Api
           Properties:
@@ -80,6 +134,112 @@ Resources:
               Ref: UsersManagementApi
             Path: /user/info
             Method: POST
+        ConfirmUserFromAdmin:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user/activate-user-from-admin
+            Method: PUT
+  UsersManagementLambdaAuthenticationOptions:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://users-management-bucket/302c513ffb2c4ad247b29e7410bed89d
+      Handler: index.optionsHandler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_CLIENT_ID:
+            Ref: UsersManagementCognitoUserPoolClient
+          COGNITO_USER_POOL_ID:
+            Ref: UsersManagementUserPool
+          COGNITO_DEFAULT_USER_GROUP_NAME:
+            Ref: UserPoolGroupUsers
+      Policies:
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - cognito-idp:AdminAddUserToGroup
+          - cognito-idp:AdminRemoveUserFromGroup
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:cognito-idp:'
+              - Ref: AWS::Region
+              - ':'
+              - Ref: AWS::AccountId
+              - :userpool/*
+      Events:
+        CreateUserOptions:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /auth/register
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
+        LoginUserOptions:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /auth/login
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
+        RefreshTokenOptions:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /auth/refresh-token
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
+  UsersManagementLambdaUserOptions:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://users-management-bucket/302c513ffb2c4ad247b29e7410bed89d
+      Handler: user.optionsHandler
+      Runtime: nodejs10.x
+      Environment:
+        Variables:
+          COGNITO_USER_POOL_CLIENT_ID:
+            Ref: UsersManagementCognitoUserPoolClient
+          COGNITO_USER_POOL_ID:
+            Ref: UsersManagementUserPool
+          COGNITO_DEFAULT_USER_GROUP_NAME:
+            Ref: UserPoolGroupUsers
+      Events:
+        GetAllUsers:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
+        GetUserInfoOptions:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user/info
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
+        ConfirmUserFromAdminOptions:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: UsersManagementApi
+            Path: /user/activate-user-from-admin
+            Method: OPTIONS
+            Auth:
+              Authorizer: NONE
   UsersManagementUserPool:
     Type: AWS::Cognito::UserPool
     Properties:

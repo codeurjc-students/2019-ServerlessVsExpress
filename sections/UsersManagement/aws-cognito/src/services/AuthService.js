@@ -83,3 +83,27 @@ exports.login = (data) => {
         });
     });
 };
+
+exports.refreshToken = (data) => {
+    return new Promise((resolve, reject) => {
+        if(!data || !data.refresh_token) {
+            reject({statusCode: 400, message: 'refresh token is missing'});
+        }
+
+        const params = {
+            ClientId: process.env.COGNITO_USER_POOL_CLIENT_ID,
+            AuthFlow: 'REFRESH_TOKEN_AUTH',
+            AuthParameters: {
+                REFRESH_TOKEN: data.refresh_token
+            }
+        };
+
+        cognitoidentityserviceprovider.initiateAuth(params, (err, dataLogin) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(dataLogin);
+            }
+        });
+    });
+};

@@ -14,39 +14,45 @@ exports.optionsHandler = async (event, context, callback) => {
     callback(null, res);
 };
 
-exports.authHandler = async (event, context, callback) => {
+exports.userHandler = async (event, context, callback) => {
+    const challenge = event.path;
     switch (event.httpMethod) {
         case 'GET':
-                sendResponse(200, `Received ${event.httpMethod} method!`, callback);
+                switch(challenge) {
+                    case '/user':
+                            try{
+                                const res = await UserController.getAllUsers();
+                                sendResponse(200, res, callback);
+                            } catch(err) {
+                                console.log(err);
+                                sendResponse(err.statusCode, err.message, callback);
+                            }
+                        break;
+                }
                 break;
         case 'POST':
-                const challenge = event.path;
-
                 switch(challenge) {
-                    case '/auth/register':
+                    case '/user/info':
                             try{
                                 const data = JSON.parse(event.body);
-                                await AuthController.register(data);
-                                sendResponse(201, `User has been registered successfully!`, callback);
+                                const res = await UserController.getUserInfo(data);
+                                sendResponse(200, res, callback);
                             } catch(err) {
+                                console.log(err);
                                 sendResponse(err.statusCode, err.message, callback);
                             }
                         break;
-                    case '/auth/login':
+                }
+                break;
+        case 'PUT':
+                switch(challenge) {
+                    case '/user/activate-user-from-admin':
                             try{
                                 const data = JSON.parse(event.body);
-                                const res = await AuthController.login(data);
+                                const res = await UserController.activateUserFromAdmin(data);
                                 sendResponse(200, res, callback);
                             } catch(err) {
-                                sendResponse(err.statusCode, err.message, callback);
-                            }
-                        break;
-                    case '/auth/refresh-token':
-                            try{
-                                const data = JSON.parse(event.body);
-                                const res = await AuthController.refreshToken(data);
-                                sendResponse(200, res, callback);
-                            } catch(err) {
+                                console.log(err);
                                 sendResponse(err.statusCode, err.message, callback);
                             }
                         break;

@@ -7,3 +7,7 @@ exports.register = async (data) => {
 exports.login = async (data) => {
     return await AuthService.login(data);
 }
+
+exports.refreshToken = async (data) => {
+    return await AuthService.refreshToken(data);
+}
