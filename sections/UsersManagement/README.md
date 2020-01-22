@@ -401,7 +401,7 @@ The middlewares above are a good example of how multiple middlewares can **commu
 In this case, the backend has been done with an AWS SAM template. This template consists on a series of services provided by AWS, which we can connect and configure. To achieve our goals, we used services such an **Api**, a **User Pool** (this will be the main service to manage the authentication flow for the users), some **Lambda functions** with the necessary **events** containing the endpoints and **policies** that lambdas will need to execute certain actions, a **User Pool Client** to allow the communication between our app and AWS Services through the **AWS SDK**, and **User Pool Groups** (admins and users). We will tell some aspects about this services:
 
 #### AWS SAM template specification
-**CORS (Cross-origin resource sharing):**
+**CORS (Cross-origin resource sharing):**<br>
 As we are going to use a frontend in localhost, we are going to need to deal with the typical Cors problem. To solve this, we need to tell our Api that we want to allow some methods, headers, origins and credentials. To do that, we need to add this in our SAM template, as follows:
 
 ```yaml
@@ -414,7 +414,8 @@ Globals:
       AllowCredentials: "'*'"
 ```
 
-**Api:**
+
+**Api:**<br />
 To **protect** some of the routes in our backend, we need to use some kind of filter. We can do that by indicating in the Api resource that we need to use an **Authorizer**, and that the authorizer will check if the request has been done by a user that belongs to our User Pool:
 
 ```yaml
@@ -430,7 +431,8 @@ UsersManagementApi:
             UserPoolArn: !GetAtt UsersManagementUserPool.Arn
 ```
 
-**Endpoints:**
+
+**Endpoints:**<br />
 With the code above, we can connect the endpoints of our lambdas to that Api and choose whether they should be protected or not:
 
 ```yaml
@@ -466,7 +468,8 @@ Events:
     # ...
 ```
 
-**Policies:**
+
+**Policies:**<br />
 To execute certain actions from our app with the help of the AWS SDK, we need to add policies to the lambdas in charge of doing the actions:
 
 ```yaml
@@ -488,7 +491,8 @@ Policies:
                 - ':userpool/*'
 ```
 
-**User Pool:**
+
+**User Pool:**<br />
 To create the User Pool, AWS allows us to **customize** many things in terms of **confirming new registered users** (by email, sms, code, etc). We can also choose the **Policies for passwords**, for example, we chose them to be longer than five characters, to require numbers and to have a temporary password validity of 1 day.
 
 By default, AWS User Pools provide a field for username and password, but we can add more custom fields, for example the firstname, lastname... and even if they are required or not. You can see a piece of our example here:
@@ -523,7 +527,8 @@ UsersManagementUserPool:
             Required: false
 ```
 
-**User Pool Client:**
+
+**User Pool Client:**<br />
 In this resource, we can specify the authentication flow we want to use (they allow many actual flows, i.e. Oauth2). In our case, we are using 2 (`ALLOW_USER_PASSWORD_AUTH` and `ALLOW_REFRESH_TOKEN_AUTH`). You can set the refresh_token validity explicitly and even check to throw an error when a user exists, for example, checking the emails:
 
 ```yaml
@@ -540,7 +545,8 @@ UsersManagementCognitoUserPoolClient:
         - ALLOW_REFRESH_TOKEN_AUTH
 ```
 
-**User Pool Domain:**
+
+**User Pool Domain:**<br />
 AWS Cognito makes use of a domain for many use cases. For example, when a user clicks on the confirmation link that has been sent after the sign up, it will be redirected to this domain and will be shown a message telling him if the confirmation was ok, or went wrong:
 
 ```yaml
@@ -551,7 +557,8 @@ UserPoolDomain:
       UserPoolId: !Ref UsersManagementUserPool
 ```
 
-**User Pool Groups:**
+
+**User Pool Groups:**<br />
 To **separate roles**, we can use groups. We have created two (Admins and Users) for our application, but you could create as many as you want. From the application, at the time we sign up a user, we can add it directly to the **default group**, that would be Users group. Here, you can see the creation of both groups:
 
 ```yaml
@@ -570,10 +577,11 @@ UserPoolGroupUsers:
       UserPoolId: !Ref UsersManagementUserPool
 ```
 
+
 #### Lambda handlers using Node.js and AWS SDK
 To make use of the resources mentioned above, we have created some handlers that will give us the required functionality.
 
-**Cors:**
+**Cors:**<br />
 To allow our endpoints to communicate with the client, we need to set some headers in the response. This will avoid all the red error messages in the console:
 
 ```javascript
@@ -622,7 +630,8 @@ exports.optionsHandler = async (event, context, callback) => {
 };
 ```
 
-**Register a user:**
+
+**Register a user:**<br />
 To register a user, we can use the method signUp() of the object `cognitoidentityserviceprovider`, which we can get from the AWS SDK. We would need to pass some required parameters as params, for example, the **ClientId** (we are sending the env variable from the lambda function), a **Password**, a **Username**, etc. We can choose to check that the email is not already in the User Pool.
 
 ```javascript
@@ -686,7 +695,8 @@ const addUserToGroup = (username) => {
 };
 ```
 
-**Login a user:**
+
+**Login a user:**<br />
 To login a user, the process is similar, but we don't need to add it to any group and need less params:
 
 ```javascript
@@ -718,7 +728,8 @@ exports.login = (data) => {
 
 We have chosen to use the AuthFlow: `USER_PASSWORD_AUTH`, and that is why we must provide the username and password to follow this standar.
 
-**Refresh token:**
+
+**Refresh token:**<br />
 To refresh the tokens, AWS Cognito uses the same function used for the login (initiateAuth()), but instead of choosing the AuthFlow to be the one used above, we set it to be `REFRESH_TOKEN_AUTH`:
 
 ```javascript
@@ -731,7 +742,8 @@ const params = {
 };
 ```
 
-**Get user info:**
+
+**Get user info:**<br />
 To test if the access_token is valid, we can use this function:
 
 ```javascript
@@ -758,7 +770,8 @@ exports.getUserInfo = (data) => {
 
 In case the token is not valid, it will return a specific error.
 
-**Getting all the users from the User Pool:**
+
+**Getting all the users from the User Pool:**<br />
 To have the same example of the Node.js version of this section, we can get all the users as follow:
 
 ```javascript
@@ -779,7 +792,8 @@ exports.getAllUsers = () => {
 };
 ```
 
-**Enable/Disable user as admin:**
+
+**Enable/Disable user as admin:**<br />
 In the frontend, when we are logged in, we can know if we are a normal user or an administrator (checking the group to which it belongs). As an special functionality that only can be done if you have an admin role, you can **enable/disable** other users. This will allow/deny them to perform a login:
 
 ```javascript
@@ -811,6 +825,7 @@ exports.activateUserFromAdmin = (data) => {
 };
 ```
 ---
+
 
 ### Summary
 While in the version made with Node.js + Express, we have had to **handle by ourselves** the middlewares, validate the tokens, create the refresh actions, using a database, and more, with AWS Cognito it becomes really easy. Once you understand how Cognito works, it is like a **black box**. You send the required data, prepare the right configuration to make it work as you expect and use the AWS SDK that has almost everything you need to manage users. You don't need to worry about how to create the middleware to add a security layer for the endpoints, as you will have it automatically from the **API Authorizer**. I would recommend to use it if you want a quick/easy to maintain users management system!
