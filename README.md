@@ -47,8 +47,13 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         3. [Notifications with AWS + API Gateway V2 (server)](sections/Notifications/aws-api-gateway-websockets)
         4. [Notifications with AWS + API Gateway V2 (client)](sections/Notifications/aws-api-gateway-websockets-client)
 
-- [ ] **Users Management**
-    * Users management using a typical authentication system in Nodejs and how to do it using "Cognito" instead.
+- [x] **Users Management**
+    * Users management using a typical **authentication system** in Node.js and how to do it using "AWS Cognito" instead.
+        1. [Comparative](sections/UsersManagement)
+        2. [Users Management with Node.js + Express (Backend)](sections/UsersManagement/nodejs-express)
+        3. [Users Management React SPA (Frontend for Node.js + Express version)](sections/UsersManagement/frontend-react-nodejs)
+        4. [Users Management with AWS Cognito (Backend)](sections/UsersManagement/aws-cognito)
+        5. [Users Management React SPA (Frontend for AWS Cognito version)](sections/UsersManagement/frontend-react-aws-cognito)
 
 - [ ] **Average cost having chosen one of this stacks**
     * Aproximation to the cost of using a typical stack VS using a Serverless one, having the same parameters. We will see when it's prefferable to use one or another in a short/long term based on AWS prices.

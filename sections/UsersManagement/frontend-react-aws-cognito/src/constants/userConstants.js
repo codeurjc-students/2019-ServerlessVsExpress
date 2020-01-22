@@ -1,0 +1,2 @@
+export const LOADING_USERS = 'LOADING_USERS';
+export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS';
