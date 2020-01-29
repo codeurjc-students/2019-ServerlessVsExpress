@@ -1,4 +1,5 @@
 # Cost estimation differences
+
 ## AWS Stack
 If we talk about an AWS stack, there are some services we need to talk about. Some of them are:
 - AWS Lambda
@@ -32,9 +33,30 @@ Calculations:
 - **Total computed seconds (seconds):** 2000000 * 0.5 = 1000000 seconds
 - **Total computed Memory/seconds (GB/s):** 1000000 * 128 / 1024 = 125000 GB/s
 
+Charges:
 - **Charges for monthly computing (USD):** 125000 * 0,00001667 = 2.08375 USD
 - **Charges for monthly requests (USD):** 2000000 requests * 0.2 USD/(million requests) = 0.4 USD
 
-- **Total monthly charges:** 2.08375 + 0.4 = 2.48375 USD
+Total:
+- **Total monthly charges:** 2.08375 + 0.4 = 2.48375 USD/month
 
 ### High Compute Scenario:
+#### AWS Lambda
+
+Hypothetical scenario:
+- **Current lambda price:** 0,00001667 USD for each GB/s
+- **Allocated Memory:** 2048MB
+- **Invokations/Month:** 35000000 inv/month
+- **Time of execution:** 1 seconds
+- **Monthly price for each million requests:** 0.20 USD
+
+Calculations:
+- **Total computed seconds (seconds):** 35000000 * 1 = 35000000 seconds
+- **Total computed Memory/seconds (GB/s):** 35000000 * 2048 / 1024 = 70000000 GB/s
+
+Charges:
+- **Charges for monthly computing (USD):** 70000000 * 0,00001667 = 1166.9 USD
+- **Charges for monthly requests (USD):** 35000000 requests * 0.2 USD/(million requests) = 7.0 USD
+
+Total:
+- **Total monthly charges:** 1166.9 + 7.0 = 1173.9 USD/month
