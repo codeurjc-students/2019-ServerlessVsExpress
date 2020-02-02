@@ -17,46 +17,80 @@ In addition, we must know the **two main units** we will handle (mixing both of 
 
 To calculate the **cost of a function**, we can multiply the two units above, generating a new unit, **GB-sec**.
 
-Also, to be the most realistic as possible, we are going to talk about **two different scenarios**, a **low** compute use case, and then, a **high** one:
+Also, to be the most realistic as possible, we are going to talk about **two different scenarios**, a **low** compute use case, and then, a **high** one.
 
-### Low Compute Scenario:
-#### AWS Lambda
+---
+
+### Low Compute Scenario (AWS Lambda pricing):
 
 Hypothetical scenario:
 - **Current lambda price:** 0,00001667 USD for each GB/s
 - **Allocated Memory:** 128MB
-- **Invokations/Month:** 2000000 inv/month
+- **Invokations/Month:** 2 million invokations/month
 - **Time of execution:** 0.5 seconds
 - **Monthly price for each million requests:** 0.20 USD
 
 Calculations:
-- **Total computed seconds (seconds):** 2000000 * 0.5 = 1000000 seconds
-- **Total computed Memory/seconds (GB/s):** 1000000 * 128 / 1024 = 125000 GB/s
+- **Total computed seconds (seconds):** 2 million invokations * 0.5 seconds/invokation = 1 million seconds
+- **Total computed Memory/seconds (GB/s):** 1 million * 128 / 1024 = 125000 GB/s
 
 Charges:
 - **Charges for monthly computing (USD):** 125000 * 0,00001667 = 2.08375 USD
-- **Charges for monthly requests (USD):** 2000000 requests * 0.2 USD/(million requests) = 0.4 USD
+- **Charges for monthly requests (USD):** 2 million requests * 0.2 USD/(million requests) = 0.4 USD
 
 Total:
 - **Total monthly charges:** 2.08375 + 0.4 = 2.48375 USD/month
 
-### High Compute Scenario:
-#### AWS Lambda
+---
+
+### High Compute Scenario (AWS Lambda pricing):
 
 Hypothetical scenario:
 - **Current lambda price:** 0,00001667 USD for each GB/s
 - **Allocated Memory:** 2048MB
-- **Invokations/Month:** 35000000 inv/month
+- **Invokations/Month:** 35 million invokations/month
 - **Time of execution:** 1 seconds
 - **Monthly price for each million requests:** 0.20 USD
 
 Calculations:
-- **Total computed seconds (seconds):** 35000000 * 1 = 35000000 seconds
-- **Total computed Memory/seconds (GB/s):** 35000000 * 2048 / 1024 = 70000000 GB/s
+- **Total computed seconds (seconds):** 35 million invokations * 1 second/invokation = 35 million seconds
+- **Total computed Memory/seconds (GB/s):** 35000000 * 2048 / 1024 = 70 million GB/s
 
 Charges:
-- **Charges for monthly computing (USD):** 70000000 * 0,00001667 = 1166.9 USD
-- **Charges for monthly requests (USD):** 35000000 requests * 0.2 USD/(million requests) = 7.0 USD
+- **Charges for monthly computing (USD):** 70 million * 0,00001667 = 1166.9 USD
+- **Charges for monthly requests (USD):** 35 million requests * 0.2 USD/(million requests) = 7.0 USD
 
 Total:
 - **Total monthly charges:** 1166.9 + 7.0 = 1173.9 USD/month
+
+---
+
+### Low Compute Scenario (AWS API Gateway pricing):
+
+Hypothetical scenario:
+- **API price (for every million):** 3.50 USD
+- **Number of API calls/month:** 1 million
+- **Data transfer in each response:** 5 KB
+- **Price for each GB transferred**: 0.09 USD
+
+- **Charges for calls to the AWS API gateway:** 1 million * 3.50 USD/million = 3.50 USD
+- **Total size of transferred data:** 5KB * 1 million = 5 million/KB = 5 million / 1024 / 1024 = 2.86 GB
+- **Charges for AWS API Gateway transfers**: 2.86 GB * 0.09 USD/GB = 0.25 USD
+
+Total:
+- **Total charges for using AWS API Gateway:** 3.50 USD + 0.25 USD = 3.75 USD/month
+
+### High Compute Scenario (AWS API Gateway pricing):
+
+Hypothetical scenario:
+- **API price (for every million):** 3.50 USD
+- **Number of API calls/month:** 20 million
+- **Data transfer in each response:** 20 KB
+- **Price for each GB transferred**: 0.09 USD
+
+- **Charges for calls to the AWS API gateway:** 20 million * 3.50 USD/million = 70 USD
+- **Total size of transferred data:** 20KB * 20 million = 400 million/KB = 400 million / 1024 / 1024 = 381.46 GB
+- **Charges for AWS API Gateway transfers**: 381.46 GB * 0.09 USD/GB = 34.33 USD
+
+Total:
+- **Total charges for using AWS API Gateway:** 70 USD + 34.33 USD = 104.33 USD/month
