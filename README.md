@@ -57,4 +57,4 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 
 - [x] **Average cost having chosen one of this stacks**
     * Aproximation to the cost of using a typical stack VS using a Serverless one. We will see when it's prefferable to use one or another in a short/long term based on AWS prices.
-    1. [Comparative](sections/CostEstimation)
+        1. [Comparative](sections/CostEstimation)
