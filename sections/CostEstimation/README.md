@@ -1,6 +1,72 @@
 # Cost estimation differences
 
 
+## Node.js Stack
+In a typical scenario where we use a non-serverless stack with Node.js, we usually choose a predefined solution whith certain characteristics that we **more or less** know that fill fit our requirements. Although we know which will be the final monthly price from the beginning, it will not scale automaticly by itself. That means that if we want to have a better performance, we must do it manually changing our monthly plan. This will make easier for us to calculate monthly prices. For this, i will use a [tool](https://www.digitalocean.com/pricing/calculator) provided by DigitalOcean that allows us to **calculate an approximation** of the costs for different companies based on the parameters we choose.
+
+Moreover, we should also have a Database. For this example, we will choose [MongoDB Atlas prices](https://docs.atlas.mongodb.com/billing/cluster-configuration-costs/).
+
+### Hosting for a low compute app with a non-serverless stack (using a standard plan)
+
+Parameters:
+- **Number of CPUs:** 1
+- **Storage:** 50GB
+- **Memory:** 2GB
+- **Transfer:** 2TB
+
+- **Total storage:** 1TB
+- **Total transfer:** 1TB
+
+Added database costs (MongoDB Atlas):
+- **Pricing plan:**
+    - From 0 - 5 GB: free
+    - From 5 - 100 GB: 1 USD/GB
+    - From 100 - 500 GB: 0.50 USD/GB
+    - More than 500 GB: 0.25 USD/GB
+
+- **Chosen configuration:** 110 GB
+- **Database monthly cost:** (95 GB * 1 USD/GB) + (10 GB * 0.5 USD/GB) = **100 USD/month**
+
+Costs based on different companies with above's configuration plan (approx):
+
+- **Digital Ocean:** 105 USD/month + 100 USD/month = 205 USD/month
+- **AWS:** 205 USD/month + 100 USD/month = 305 USD/month
+- **Google Cloud:** 179 USD/month + 100 USD/month = 279 USD/month
+- **Azure:** 185 USD/month + 100 USD/month = 285 USD/month
+
+
+---
+
+### Hosting for a High compute app with a non-serverless stack (using a CPU-optimizad plan)
+
+Parameters:
+- **Number of CPUs:** 16
+- **Storage:** 200GB
+- **Memory:** 32GB
+- **Transfer:** 7TB
+
+- **Total storage:** 6TB
+- **Total transfer:** 7TB
+
+Added database costs (MongoDB Atlas):
+- **Pricing plan:**
+    - From 0 - 5 GB: free
+    - From 5 - 100 GB: 1 USD/GB
+    - From 100 - 500 GB: 0.50 USD/GB
+    - More than 500 GB: 0.25 USD/GB
+
+- **Chosen configuration:** 1000 GB
+- **Database monthly cost:** (95 GB * 1 USD/GB) + (400 GB * 0.5 USD/GB) + (500 GB * 0.25 USD/GB) = **420 USD/month**
+
+Costs based on different companies with above's configuration plan (approx):
+
+- **Digital Ocean:** 900 USD/month + 420 USD/month = 1320 USD/month
+- **AWS:** 1736 USD/month + 420 USD/month = 2156 USD/month
+- **Google Cloud:** 1620 USD/month + 420 USD/month = 2040 USD/month
+- **Azure:** 1604 USD/month + 420 USD/month = 2024 USD/month
+
+---
+
 ## AWS Stack
 If we talk about an AWS stack, there are some services we need to talk about. Some of them are:
 - **AWS Lambda**
@@ -9,7 +75,7 @@ If we talk about an AWS stack, there are some services we need to talk about. So
 - **Amazon S3**
 - **CloudWatch Logs**
 
-Most of them, depend on lambda functions to execute the logic we need. But, to execute these lambdas, we may need to create some api endpoints, which are in charge of triggering this lambdas through the use of events. So, for our costs research, let's keep the focus on four of the services mentioned above, **AWS Lambda, AWS API Gateway, DynamoDB, Amazon S3**.
+Most of them, depend on lambda functions to execute the logic we need. But, to execute these lambdas, we may need to create some api endpoints, which are in charge of triggering this lambdas through the use of events. So, for our costs research, let's keep the focus on four of the services mentioned above, **AWS Lambda, AWS API Gateway, DynamoDB, Amazon S3**. The following examples will be calculated using this AWS pricing [link](https://aws.amazon.com/es/pricing/).
 
 In addition, we must know the **two main units** we will handle (mixing both of them):
 
@@ -188,3 +254,16 @@ Calculations:
     - Next 450 TB = (450 TB * 1024 GB/TB) * 0.022 USD/GB = 10137.6 USD
     - Next 200 TB = (200 TB * 1024 GB/TB) * 0.021 USD/GB = 4300.8 USD
     - Total costs: 1177.6 + 10137.6 + 4300.8 = **15616 USD/month**
+
+---
+
+# Summary/Comparative
+As you can see in the above results, the prices depends on so many factors. To choose whether to use one or another, we must first ask ourselves some questions:
+
+- **¿Do we often need to scale our services?** If the answer is yes, it would be a good idea to use AWS's serverless services.
+
+- **¿Do we want to avoid surprises in our monthly costs?** As we don't really know how our app could have a small or a big amount of requests/needings, if we choose AWS serverless services, surprises may appear in total costs. This makes the **non-serverless option more affordable**. It doesn't mean that you can't put some limits to AWS to avoid this kind of things, but it is easy to forget to do it.
+
+- **¿Is it worth to move to a serverless stack in terms of costs?** I would put here that **developers are also a cost**, and since it is a lot **easier to scale from AWS** (serverless) than from a regular stack, they will do it faster and will have less problems during the process. If it's a big app that you estimate **will grow really fast**, go for it! They will spend less time and that also saves money!
+
+
