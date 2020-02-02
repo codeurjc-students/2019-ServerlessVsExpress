@@ -35,8 +35,6 @@ Costs based on different companies with above's configuration plan (approx):
 - **Azure:** 185 USD/month + 100 USD/month = 285 USD/month
 
 
----
-
 ### Hosting for a High compute app with a non-serverless stack (using a CPU-optimizad plan)
 
 Parameters:
@@ -108,7 +106,6 @@ Calculations and charges:
 Total:
 - **Total monthly charges:** 2.08375 + 0.4 = **2.48 USD/month**
 
----
 
 ### High Compute Scenario (AWS Lambda pricing):
 
@@ -148,7 +145,6 @@ Calculations and charges:
 Total:
 - **Total charges for using AWS API Gateway:** 3.50 USD + 0.25 USD = **3.75 USD/month**
 
----
 
 ### High Compute Scenario (AWS API Gateway pricing):
 
@@ -195,7 +191,6 @@ Hypothetical scenario:
 - **Reading costs:** (75000 + 200000 + 200000) readings * 0.89 USD/million readings = 0.475 million readings * 0.89 USD/million readings = 0.42 USD/month
 - **Total monthly cost for using DynamoDB:** 0.37 + 0.42 = **0.79 USD/month**
 
----
 
 ### High Compute Scenario (AWS DynamoDB pricing):
 
@@ -238,7 +233,6 @@ Calculations:
     - Next 50 TB = (50 TB * 1024 GB/TB) * 0.022 USD/GB = 1126.4 USD
     - Total costs: 1177.6 + 1126.4 = **2304 USD/month**
 
---- 
 
 ### Higher Compute Scenario (Amazon S3 pricing):
 
