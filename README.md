@@ -55,5 +55,6 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
         4. [Users Management with AWS Cognito (Backend)](sections/UsersManagement/aws-cognito)
         5. [Users Management React SPA (Frontend for AWS Cognito version)](sections/UsersManagement/frontend-react-aws-cognito)
 
-- [ ] **Average cost having chosen one of this stacks**
-    * Aproximation to the cost of using a typical stack VS using a Serverless one, having the same parameters. We will see when it's prefferable to use one or another in a short/long term based on AWS prices.
+- [x] **Average cost having chosen one of this stacks**
+    * Aproximation to the cost of using a typical stack VS using a Serverless one. We will see when it's prefferable to use one or another in a short/long term based on AWS prices.
+    1. [Comparative](sections/CostEstimation)
