@@ -31,4 +31,6 @@ io.on('connection', (socket) => {
     setInterval(() => sendConnectedAdminsPeriodically(socket), 10000);
 });
 
-http.listen(SERVER_PORT, () => console.log(`Server listening on http://localhost:${SERVER_PORT}`));
+//http.listen(SERVER_PORT, () => console.log(`Server listening on http://localhost:${SERVER_PORT}`));
+
+module.exports = app;

@@ -74,6 +74,10 @@ class AuthController {
     };
 
     static refreshToken = (req, res) => {
+        if(!req.headers.authorization) {
+            return res.status(401).send({message: "Unauthorized operation. Refresh token is missing."});
+        }
+
         const array_refresh_token = req.headers.authorization;
         const refresh_token = array_refresh_token.split(" ")[1];
 
@@ -98,6 +102,10 @@ class AuthController {
     };
 
     static checkValidToken = (req, res) => {
+        if(!req.headers.authorization) {
+            return res.status(401).send({message: "Unauthorized operation."});
+        }
+
         const array_access_token = req.headers.authorization;
         const access_token = array_access_token.split(" ")[1];
 
@@ -120,6 +128,10 @@ class AuthController {
 
     static logout = (req, res) => {
         const { email } = req.body;
+
+        if(!req.headers.authorization) {
+            return res.status(401).send({message: "Unauthorized operation."});
+        }
 
         const array_access_token = req.headers.authorization;
         const access_token = array_access_token.split(" ")[1];
