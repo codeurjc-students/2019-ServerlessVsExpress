@@ -23,7 +23,7 @@ class AuthController {
         // Search in the database
         UserModel.findOne({email: email}, (err, user_db) => {
             if(err) {
-                return res.status(401).send(err);
+                return res.status(401).send({message: 'An error happened while using the database'});
             }
             
             if(!user_db) {
@@ -33,7 +33,7 @@ class AuthController {
             // If user exists, we compare the encripted password with the one in the database
             bcrypt.compare(password, user_db.password, (err, result) => {
                 if(err) {
-                    return res.status(401).send(err);
+                    return res.status(401).send({message: 'An error happened while using the bcrypt'});
                 }
 
                 // If password doesn't match (result === false), we sent an error
@@ -54,20 +54,20 @@ class AuthController {
                 
                 UserModel.findOneAndUpdate({_id: user_db.id}, updated_user, (err) => {
                     if(err) {
-                        return res.status(401).send(err);
+                        return res.status(401).send({message: "Error trying to update user's connected attribute in the database"});
                     }
-                });
 
-                // If user is activated, we create new access_token and refresh_token
-                // Sign tokens
-                const access_token = jwt.sign(jwtPayload, SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
-                const refresh_token = jwt.sign(jwtPayload, REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });
+                    // If user is activated, we create new access_token and refresh_token
+                    // Sign tokens
+                    const access_token = jwt.sign(jwtPayload, SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
+                    const refresh_token = jwt.sign(jwtPayload, REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRATION_TIME });
 
-                res.send({
-                    email: user_db.email,
-                    role: user_db.role,
-                    access_token,
-                    refresh_token
+                    return res.status(200).send({
+                        email: user_db.email,
+                        role: user_db.role,
+                        access_token,
+                        refresh_token
+                    });
                 });
             });
         });
@@ -89,13 +89,13 @@ class AuthController {
         // If refresh_token exists, verify that hasn't expired
         jwt.verify(refresh_token, REFRESH_SECRET, (err, decoded) => {
             if(err) {
-                return res.status(401).send(err);
+                return res.status(401).send({message: "Invalid refresh token."});
             }
 
             // If refresh_token hasn't expired, sign a new access_token
             const access_token = jwt.sign({ email: decoded.email }, SECRET, { expiresIn: ACCESS_TOKEN_EXPIRATION_TIME });
 
-            res.status(201).send({
+            return res.status(201).send({
                 access_token
             });
         });
@@ -117,10 +117,10 @@ class AuthController {
         // If refresh_token exists, verify that hasn't expired
         jwt.verify(access_token, SECRET, (err, decoded) => {
             if(err) {
-                return res.status(401).send(err);
+                return res.status(401).send({message: "Invalid access token."});
             }
 
-            res.status(201).send({
+            return res.status(201).send({
                 access_token
             });
         });
@@ -143,16 +143,16 @@ class AuthController {
         // If refresh_token exists, verify that hasn't expired
         jwt.verify(access_token, SECRET, (err, decoded) => {
             if(err) {
-                return res.status(401).send(err);
+                return res.status(401).send({message: "Invalid access token."});
             }
 
             UserModel.findOne({email: email}, (err, user_db) => {
                 if(err) {
-                    return res.status(401).send(err);
+                    return res.status(401).send({message: "Error from database while trying to find the user."});
                 }
                 
                 if(!user_db) {
-                    return res.status(401).send({message: `User doesn't exist`});
+                    return res.status(401).send({message: `User doesn't exist.`});
                 }
 
                 // Set the user as disconnected
@@ -163,7 +163,7 @@ class AuthController {
 
                 UserModel.findOneAndUpdate({_id: user_db.id}, updated_user, (err) => {
                     if(err) {
-                        return res.status(401).send(err);
+                        return res.status(401).send({message: "Error from database when trying to update user's connected attribute."});
                     }
                     res.status(204).send();
                 });
