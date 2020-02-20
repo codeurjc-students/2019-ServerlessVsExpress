@@ -12,7 +12,7 @@ const roleCheck = (req, res, next) => {
             // If the access role is contained in the allowed roles, we allow the access
             next();
         } else {
-            return res.status(401).send('Unauthorized operation');
+            return res.status(401).send({message: 'Unauthorized operation'});
         }
     });
 };

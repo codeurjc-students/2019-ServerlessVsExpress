@@ -15,7 +15,7 @@ class UserController {
     static getAllUsers = (req, res) => {
         UserModel.find({}, '-password',  (err, users) => {
             if(err) {
-                return res.status(401).send(`Unauthorized operation`);
+                return res.status(401).send({message: `Database error when trying to fetch all the users`});
             }
             return res.status(200).send(users);
         });
@@ -25,7 +25,7 @@ class UserController {
         // Search admin users hidding their password
         UserModel.find({role: 'ADMIN'}, '-password',  (err, users) => {
             if(err) {
-                return res.status(401).send(`Unauthorized operation`);
+                return res.status(401).send({message: `Database error when trying to fetch all the admins`});
             }
             return res.status(200).send(users);
         });
@@ -33,11 +33,11 @@ class UserController {
 
     static register = (req, res) => {
         if(!req.body) {
-            return res.status(400).send({message: "Wrong body parameters"});
+            return res.status(400).send({message: 'Body parameters are missing'});
         }
 
         if(!(req.body.email && req.body.password)) {
-            return res.status(400).send();
+            return res.status(400).send({message: 'Wrong body parameters'});
         }
 
         const newUser = new UserModel({
@@ -50,7 +50,7 @@ class UserController {
 
         newUser.save(async (err) => {
             if(err) {
-                return res.status(400).send(err);
+                return res.status(400).send({message: 'Database error when trying to save the user'});
             }
             
             // The user has been created, but the account needs to be activated with a link! 
@@ -74,13 +74,10 @@ class UserController {
                 html: `<a href="http://localhost:${config.SERVER_PORT}/user/activate?activation_token=${encodeURI(activation_token)}">http://localhost:${config.SERVER_PORT}/user/activate?activation_token=${encodeURI(activation_token)}</a>` // html body
             }, (err, info) => {
                 if(err) {
-                    console.log(err);
-                    return res.status(400).send(err);
+                    return res.status(400).send({message: 'Error sending activation email'});
                 }
+                return res.status(201).send({message: "User created. Check your email inbox to activate your account!"});
             });
-
-            res.status(201).send({message: "User created. Check your email inbox to activate your account!"});
-            
         });
     };
 
@@ -88,7 +85,7 @@ class UserController {
         const activation_token = req.query["activation_token"];
 
         if(!activation_token) {
-            return res.status(401).send({message: 'The activation token has expired!'});
+            return res.status(401).send({message: 'The activation must be sent!'});
         }
 
         jwt.verify(activation_token, config.ACCOUNT_ACTIVATION_SECRET, (err, decoded) => {
@@ -98,7 +95,7 @@ class UserController {
             
             UserModel.findOneAndUpdate({email: decoded.email}, {$set:{activated: "ACTIVE"}}, (err, doc) => {
                 if(err) {
-                    return res.status(400).send();
+                    return res.status(400).send({message: 'Database error trying to activate the user'});
                 }
                 res.status(200).send(`Your account has been activated! Click here to go to the login page <a href="http://localhost:3000/login">http://localhost:3000/login</a>`);
             });
@@ -110,26 +107,26 @@ class UserController {
             if(req.body.activate){
                 UserModel.findOneAndUpdate({email: req.body.email}, {$set:{activated: "ACTIVE"}}, (err, doc) => {
                     if(err) {
-                        return res.status(400).send();
+                        return res.status(400).send({message: 'Database error trying to activate user from admin'});
                     }
                     res.status(200).send({message: `The account with email ${req.body.email} has been activated`});
                 });
             } else {
                 UserModel.findOneAndUpdate({email: req.body.email}, {$set:{activated: "PENDING"}}, (err, doc) => {
                     if(err) {
-                        return res.status(400).send();
+                        return res.status(400).send({message: 'Database error trying to deactivate user from admin'});
                     }
                     res.status(200).send({message: `The account with email ${req.body.email} has been deactivated`});
                 });
             }
         } else {
-            return res.status(400).send();
+            return res.status(400).send({message: 'The request body must contain an email'});
         }
     };
 
     static generateUsersPdf = (req, res) => {
         if(!req.body || !req.body.pdfData) {
-            res.status(400).send('pdfData is missing...');
+            res.status(400).send({message: 'pdfData is missing...'});
         } else {
             amqp.connect('amqp://localhost', (err, conn) => {
                 if(err) {
@@ -139,7 +136,7 @@ class UserController {
                 consumer(conn);
                 publisher(conn, req.body.pdfData);
             });
-            res.status(201).send('Your pdf has been generated!');
+            res.status(201).send({message: 'Your pdf has been generated!'});
         }
     };
 }

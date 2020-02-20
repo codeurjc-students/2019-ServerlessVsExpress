@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server-start.js",
-    "test": "jest --config=jest.config.js",
+    "test": "jest --config=jest.config.js --verbose",
     "test:watch": "jest --watch"
   },
   "author": "Francisco Robles",
@@ -33,6 +33,7 @@
     "jest": "^25.1.0",
     "jest-express": "^1.11.0",
     "jest-when": "^2.7.0",
+    "mockingoose": "^2.13.2",
     "node-mocks-http": "^1.8.1"
   }
 }
