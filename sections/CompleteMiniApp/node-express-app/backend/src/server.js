@@ -22,14 +22,14 @@ router.use('/user', userRouter);
 
 app.use('/', router);
 
-io.on('connection', (socket) => {
+/*io.on('connection', (socket) => {
     console.log('An user has been connected!');
     socket.on('disconnect', () => {
         console.log('An user has been disconnected');
     });
 
     setInterval(() => sendConnectedAdminsPeriodically(socket), 10000);
-});
+});*/
 
 //http.listen(SERVER_PORT, () => console.log(`Server listening on http://localhost:${SERVER_PORT}`));
 
