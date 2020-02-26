@@ -92,7 +92,7 @@
     This will run all the test to check if everything is working as expected. If it is, this message should appear in your terminal:
 
     <p align="center">
-    <img alt="Tests passed" src="./backend/img/tests-passed.png">
+    <img alt="Tests passed" src="./node-express-app/img/tests-passed.png">
     </p>
 
 9. Run the RabbitMQ server (in another terminal window, keeping it alive) if you didn't to allow the generation of pdfs in the background:
@@ -138,7 +138,7 @@ There, you will be placed in the login panel. Follow this steps to try all the f
 5. Entering the main page, you will see that an **alert** has appeared on the right-top side. This alert shows itself everytime the number of admins connected at the same time change (with the help of **websockets**). It shows the emails of all the admins connected at that moment:
 
 <p align="center">
-  <img alt="Admins connected alert websockets" src="./backend/img/image-admins.png">
+  <img alt="Admins connected alert websockets" src="./node-express-app/img/image-admins.png">
 </p>
 
 6. From the menu, navigate clicking the link that says **Users**.
@@ -148,13 +148,13 @@ There, you will be placed in the login panel. Follow this steps to try all the f
 **User view:**
 
 <p align="center">
-  <img alt="Users section (from user role view)" src="./backend/img/users-user-view.png">
+  <img alt="Users section (from user role view)" src="./node-express-app/img/users-user-view.png">
 </p>
 
 **Admin view:**
 
 <p align="center">
-  <img alt="Users section (from admin role view)" src="./backend/img/users-admin-view.png">
+  <img alt="Users section (from admin role view)" src="./node-express-app/img/users-admin-view.png">
 </p>
 
 8. If you are an admin, you can activate/deactivate other non-admin accounts to allow/ban them from the application.
@@ -164,13 +164,13 @@ There, you will be placed in the login panel. Follow this steps to try all the f
 **Button to print the users:**
 
 <p align="center">
-  <img alt="Print users button" src="./backend/img/print-users-button.png">
+  <img alt="Print users button" src="./node-express-app/img/print-users-button.png">
 </p>
 
 **Folder with the pdfs generated:**
 
 <p align="center">
-  <img alt="pdfs folder" src="./backend/img/pdfs-folder.png">
+  <img alt="pdfs folder" src="./node-express-app/img/pdfs-folder.png">
 </p>
 
 ---
