@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Complete MiniApp to test the capabilities of AWS Serverless services
+Resources:
+  UsersManagementResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/3f3f8a6e49c3303a9851ea38d2d1b586.template
+  DatabaseResource:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/83ec5a0e360d0060a6f059d1c74a31bb.template

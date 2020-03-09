@@ -1,0 +1,69 @@
+.grid-login {
+  background: url("../images/bg-login.jpg");
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}
+
+.login-container {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  background: rgba(255, 255, 255, .7);
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 35px 48px 7px rgba(0,0,0,1.0);
+  -moz-box-shadow: 0px 35px 48px 7px rgba(0,0,0,1.0);
+  box-shadow: 0px 35px 48px 7px rgba(0,0,0,1.0);
+
+  a {
+    color: #3f51b5;
+    &:link {
+      color: #3f51b5;
+    }
+    &:visited {
+      color: #3f51b5;
+    }
+    &:hover {
+      color: #3f51b5;
+    }
+  }
+
+  .avatar {
+    margin: 8px auto;
+    background: #E50914;
+  }
+
+  .form {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .text-login-title {
+    text-align: center;
+  }
+
+  .submit {
+    margin: 8px auto;
+    background: #E50914;
+    &:hover {
+      background: #cc050f;
+    }
+    &:visited, &focus {
+      background: #E50914;
+    }
+  }
+
+  .wrapper-button-login {
+    position: relative;
+  }
+
+  .buttonProgress {
+    color: #E50914;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -12px;
+    margin-left: -12px;
+  }
+}

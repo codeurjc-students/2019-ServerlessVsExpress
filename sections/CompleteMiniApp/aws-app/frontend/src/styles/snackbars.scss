@@ -1,0 +1,38 @@
+.snackbar- {
+
+  &error {
+    background: #5f6b4a !important;
+    .message {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &success {
+    background: cornflowerblue !important;
+    .message {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &info {
+    background: yellowgreen !important;
+    .message {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &closed {
+    display: none !important;
+  }
+
+}
+
+.icon-snackbar {
+  margin-right: 10px;
+}
