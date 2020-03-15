@@ -5,8 +5,14 @@ Resources:
   UsersManagementResources:
     Type: AWS::Serverless::Application
     Properties:
-      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/3f3f8a6e49c3303a9851ea38d2d1b586.template
-  DatabaseResource:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/13e8e3999edfdb689a128b27d7ed0b37.template
+  DatabaseResources:
     Type: AWS::Serverless::Application
     Properties:
-      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/83ec5a0e360d0060a6f059d1c74a31bb.template
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/d9cf21b114dd5ca24494cd01efcde258.template
+  PdfQueueResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/47e9b2d098f3f41cd6ed89fe69ba9cff.template
+      Parameters:
+        pdfBucketName: complete-miniapp-pdf-bucket

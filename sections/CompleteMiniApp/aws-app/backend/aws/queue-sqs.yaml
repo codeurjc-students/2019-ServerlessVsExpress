@@ -1,0 +1,100 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  pdfBucketName:
+    Type: String
+    Description: Name of the bucket in charge of keeping the pdfs that have been processed
+Resources:
+    # Api created to send a Message to the pdfQueue from an endpoint
+    PdfApiCreationFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+            Runtime: nodejs10.x
+            Handler: pdf.pdfSenderHandler
+            Layers:
+                - !Ref ModulesLayer3
+            CodeUri: ../src/
+            Environment:
+              Variables:
+                PDF_BUCKET_NAME: !Ref pdfBucketName
+                PDF_QUEUE_URL: !Ref PdfSqsQueue
+            Events:
+                lambdaWriteFile:
+                    Type: Api
+                    Properties:
+                        Path: /createPdf
+                        Method: POST
+            Policies:
+              -   SQSSendMessagePolicy:
+                      QueueName:
+                        !GetAtt PdfSqsQueue.QueueName
+
+    PdfApiCreationFunctionOptions:
+        Type: AWS::Serverless::Function
+        Properties:
+            Runtime: nodejs10.x
+            Handler: pdf.pdfSenderHandlerOptions
+            Layers:
+                - !Ref ModulesLayer3
+            CodeUri: ../src/
+            Environment:
+              Variables:
+                PDF_BUCKET_NAME: !Ref pdfBucketName
+                PDF_QUEUE_URL: !Ref PdfSqsQueue
+            Events:
+                lambdaWriteFile:
+                    Type: Api
+                    Properties:
+                        Path: /createPdf
+                        Method: OPTIONS
+            Policies:
+              -   SQSSendMessagePolicy:
+                      QueueName:
+                        !GetAtt PdfSqsQueue.QueueName
+                      
+    # SQSQueue handler to receive, process messages
+    SQSQueueFunction:
+        Type: AWS::Serverless::Function
+        Properties:
+          Handler: pdf.queueProcessingHandler
+          Layers:
+                - !Ref ModulesLayer3
+          CodeUri: ../src/
+          Runtime: nodejs10.x
+          Environment:
+              Variables:
+                PDF_BUCKET_NAME: !Ref pdfBucketName
+                PDF_QUEUE_URL: !Ref PdfSqsQueue
+          Policies:
+            - SQSPollerPolicy:
+                QueueName: 
+                  !GetAtt PdfSqsQueue.QueueName
+            - S3FullAccessPolicy:
+                BucketName: !Ref pdfBucketName
+    
+    # Creates a mapping that triggers a lambda function when an event happens in the queue
+    LambdaPdfFunctionEventSourceMapping:
+      Type: AWS::Lambda::EventSourceMapping
+      Properties:
+        BatchSize: 10
+        Enabled: true
+        EventSourceArn: !GetAtt PdfSqsQueue.Arn
+        FunctionName: !GetAtt SQSQueueFunction.Arn
+    
+    # Creation of a default queue
+    PdfSqsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: "pdfQueue"
+
+    ModulesLayer3:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: sam-app-dependencies
+            Description: Dependencies for sam app
+            ContentUri: ../lambda-layers/
+            CompatibleRuntimes:
+                - nodejs10.x
+            LicenseInfo: 'MIT'
+            RetentionPolicy: Retain
+
+                        

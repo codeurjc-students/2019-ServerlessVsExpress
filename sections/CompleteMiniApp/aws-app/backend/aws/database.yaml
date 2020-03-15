@@ -11,7 +11,7 @@ Resources:
             Layers:
                 - !Ref ModulesLayer1
             # The location of the Lambda function code.
-            CodeUri: src/
+            CodeUri: ../src/
             Events:
                 addConectionInfo:
                     # Define an API Gateway endpoint that responds to HTTP GET at /users
@@ -33,7 +33,7 @@ Resources:
             Handler: connection.connectionDbHandlerOptions
             Layers:
                 - !Ref ModulesLayer1
-            CodeUri: src/
+            CodeUri: ../src/
             Events:
                 addConectionInfoOptions:
                     Type: Api
@@ -62,7 +62,7 @@ Resources:
         Properties:
             LayerName: sam-app-dependencies
             Description: Dependencies for sam app
-            ContentUri: lambda-layers/
+            ContentUri: ../lambda-layers/
             CompatibleRuntimes:
                 - nodejs10.x
             LicenseInfo: 'MIT'

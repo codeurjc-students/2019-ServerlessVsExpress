@@ -11,10 +11,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import PrintIcon from '@material-ui/icons/Print';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { 
     getUsers,
-    activateUser 
+    activateUser,
+    printPdfUsers
 } from '../actions/usersActions';
 
 class UsersSection extends Component {
@@ -45,6 +48,13 @@ class UsersSection extends Component {
         );
     }
 
+    renderLoadingButton = () => {
+        if(this.props.loadingPdf) {
+            return <CircularProgress color='inherit' size={24}/>;
+        }
+        return <PrintIcon/>;
+    }
+
     render() {
         const { user } = this.props;
         const isAdmin = user.role === 'ADMIN';
@@ -58,7 +68,10 @@ class UsersSection extends Component {
                 <CssBaseline/>
                 <div className='main-container'>
                     <div className="users-content">
-                        <h2>Users registered</h2>
+                        <div className='top-table'>
+                            <h2 className='title-users-table'>Users registered</h2>
+                            <button disabled={this.props.loadingPdf} className='btn-print-pdf' onClick={() => this.props.printPdfUsers()}>{this.renderLoadingButton()} <span className='title-btn-print-pdf'>Print pdf</span></button>
+                        </div>
                         <TableContainer component={Paper}>
                             <Table className="usersTable" aria-label="User table">
                                 <TableHead>
@@ -83,13 +96,15 @@ class UsersSection extends Component {
 const mapStateToProps = (state /*, ownProps*/) => {
     return {
         users: state.users.users,
+        loadingPdf: state.users.loadingPdf,
         user: state.login.user
     }
 };
 
 const mapDispatchToProps = {
     getUsers,
-    activateUser
+    activateUser,
+    printPdfUsers
 };
 
 export default connect(

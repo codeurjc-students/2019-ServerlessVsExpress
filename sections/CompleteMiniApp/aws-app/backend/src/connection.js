@@ -30,12 +30,6 @@ exports.connectionDbHandler = async (event, context, callback) => {
         default:
                 sendResponse(400, `Unsupported method ${event.httpMethod}`, callback);
     }
-
-    /*const res = {
-        statusCode: 200,
-        body: JSON.stringify('Connection DB Handler works!')
-    };
-    callback(null, res);*/
 };
 
 const sendResponse = (statusCode, message, callback) => {

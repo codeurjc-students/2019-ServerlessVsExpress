@@ -38,7 +38,7 @@ Resources:
   UsersManagementLambdaAuthentication:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: ../src/
       Handler: index.authHandler
       Layers:
         - !Ref ModulesLayer2
@@ -93,7 +93,7 @@ Resources:
   UsersManagementLambdaUser:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: ../src/
       Handler: user.userHandler
       Layers:
         - !Ref ModulesLayer2
@@ -144,7 +144,7 @@ Resources:
   UsersManagementLambdaAuthenticationOptions:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: ../src/
       Handler: index.optionsHandler
       Layers:
         - !Ref ModulesLayer2
@@ -198,7 +198,7 @@ Resources:
   UsersManagementLambdaUserOptions:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: ../src/
       Handler: user.optionsHandler
       Layers:
         - !Ref ModulesLayer2
@@ -299,7 +299,7 @@ Resources:
     Properties:
         LayerName: sam-app-dependencies
         Description: Dependencies for sam app
-        ContentUri: lambda-layers/
+        ContentUri: ../lambda-layers/
         CompatibleRuntimes:
           - nodejs10.x
         LicenseInfo: 'MIT'

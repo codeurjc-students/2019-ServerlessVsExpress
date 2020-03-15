@@ -83,4 +83,32 @@ button:focus {outline:0;}
         cursor: pointer;
         font-weight: bold;
     }
+
+    .title-users-table {
+        width: 93%;
+        float: left;
+    }
+
+    .btn-print-pdf {
+        width: 7%;
+        float: left;
+        padding: 3px;
+        background: #e50814;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        border: 1px solid #bd0812;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        margin-bottom: 3px;
+        .title-btn-print-pdf {
+            margin-left: 5px;
+            flex: 1;
+        }
+    }
+
+    .btn-print-pdf:hover {
+        background: #bd0812;
+    }
 }

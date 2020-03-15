@@ -4,6 +4,7 @@ import * as Config from '../config/config';
 const cookies = new Cookies();
 
 const BASE_URL = Config.BASE_URL_API_BACKEND;
+const BASE_URL_PDF_API = Config.BASE_URL_PDF_API;
 
 export const getUsers = () => {
     const config = {
@@ -41,6 +42,15 @@ export const getUserInfo = (idToken, accessToken) => {
     };
     const result = new Promise((resolve, reject) => {
         axios.post(`${BASE_URL}/user/info`, {access_token: accessToken}, config)
+            .then((res) => resolve(res))
+            .catch((err) => reject(err))
+    });
+    return result;
+};
+
+export const printPdfUsers = (bodyPdf) => {
+    const result = new Promise((resolve, reject) => {
+        axios.post(`${BASE_URL_PDF_API}/createPdf`, bodyPdf)
             .then((res) => resolve(res))
             .catch((err) => reject(err))
     });
