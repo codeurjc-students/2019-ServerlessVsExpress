@@ -5,14 +5,21 @@ Resources:
   UsersManagementResources:
     Type: AWS::Serverless::Application
     Properties:
-      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/13e8e3999edfdb689a128b27d7ed0b37.template
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/5dacbf6eee85979eacaf2a4d3b92b561.template
   DatabaseResources:
     Type: AWS::Serverless::Application
     Properties:
-      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/d9cf21b114dd5ca24494cd01efcde258.template
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/99d70386b900fa79c18365d39aefaf93.template
   PdfQueueResources:
     Type: AWS::Serverless::Application
     Properties:
-      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/47e9b2d098f3f41cd6ed89fe69ba9cff.template
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/7ae29d9ca4a602f5544ac3d92ed7fa71.template
       Parameters:
         pdfBucketName: complete-miniapp-pdf-bucket
+  WebsocketsResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/e60de2fe2f5b956f2075bea0c8b7cc8a.template
+      Parameters:
+        websocketsTableName: websockets_table
+        webSocketApiName: WebSocketApi

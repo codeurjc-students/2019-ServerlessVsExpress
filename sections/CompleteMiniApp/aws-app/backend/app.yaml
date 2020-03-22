@@ -7,23 +7,23 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./aws/users-management.yaml
-      #Parameters:
-        # Optional parameter that can have default value overridden
-        # ParameterName1: 15 # Uncomment to override default value
-        # Required parameter that needs value to be provided
-        #TestParameter: TEST_VALUE
+
   DatabaseResources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./aws/database.yaml
-      #Parameters:
-        # Optional parameter that can have default value overridden
-        # ParameterName1: 15 # Uncomment to override default value
-        # Required parameter that needs value to be provided
-        #TestParameter: TEST_VALUE
+
   PdfQueueResources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./aws/queue-sqs.yaml
       Parameters:
         pdfBucketName: 'complete-miniapp-pdf-bucket'
+
+  WebsocketsResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./aws/websockets.yaml
+      Parameters:
+        websocketsTableName: 'websockets_table'
+        webSocketApiName: 'WebSocketApi'
