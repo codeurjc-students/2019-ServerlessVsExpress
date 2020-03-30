@@ -24,7 +24,7 @@ exports.register = (data) => {
 
         cognitoidentityserviceprovider.signUp(params, async (err, dataSignUp) => {
             if(err) {
-                reject(err);
+                reject({statusCode: 400, message: 'Error during signup'});
             } else {
                 // Add user to group 'users group'
                 try {
@@ -47,12 +47,10 @@ const addUserToGroup = (username) => {
             Username: username
         };
         
-        cognitoidentityserviceprovider.adminAddUserToGroup(params, function(err, data) {
+        cognitoidentityserviceprovider.adminAddUserToGroup(params, (err, data) => {
             if (err) {
-                console.log("Error adding user to group");
-                reject(err);
+                reject({statusCode: 400, message: 'Error adding user to group'});
             } else {
-                console.log("Success adding user to group");
                 resolve(data);
             }
         });
@@ -76,7 +74,7 @@ exports.login = (data) => {
 
         cognitoidentityserviceprovider.initiateAuth(params, (err, dataLogin) => {
             if(err) {
-                reject(err);
+                reject({statusCode: 403, message: 'An error happened during the authentication'});
             } else {
                 resolve(dataLogin);
             }
@@ -87,7 +85,7 @@ exports.login = (data) => {
 exports.refreshToken = (data) => {
     return new Promise((resolve, reject) => {
         if(!data || !data.refresh_token) {
-            reject({statusCode: 400, message: 'refresh token is missing'});
+            reject({statusCode: 400, message: 'Refresh Token is missing'});
         }
 
         const params = {
@@ -100,7 +98,7 @@ exports.refreshToken = (data) => {
 
         cognitoidentityserviceprovider.initiateAuth(params, (err, dataLogin) => {
             if(err) {
-                reject(err);
+                reject({statusCode: 403, message: 'Error trying to refresh the tokens'});
             } else {
                 resolve(dataLogin);
             }

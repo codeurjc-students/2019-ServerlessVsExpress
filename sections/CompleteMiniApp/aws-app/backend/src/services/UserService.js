@@ -8,7 +8,7 @@ const table = 'users_connection';
 exports.getUserInfo = (data) => {
     return new Promise((resolve, reject) => {
         if(!data || !data.access_token) {
-            reject({statusCode: 401, message: 'You must provide an access_token!'});
+            reject({statusCode: 401, message: 'You must provide an access_token'});
         }
 
         const params = {
@@ -17,7 +17,7 @@ exports.getUserInfo = (data) => {
 
         cognitoidentityserviceprovider.getUser(params, (err, dataUser) => {
             if(err) {
-                reject(err);
+                reject({statusCode: 400, message: 'Error finding user'});
             } else {
                 resolve(dataUser);
             }
@@ -33,7 +33,7 @@ exports.getAllUsers = () => {
 
         cognitoidentityserviceprovider.listUsers(params, (err, users) => {
             if(err) {
-                reject(err);
+                reject({statusCode: 400, message: 'Error getting all the users'});
             } else {
                 resolve(users);
             }
@@ -51,7 +51,7 @@ exports.activateUserFromAdmin = (data) => {
         if(data.activate) {
             cognitoidentityserviceprovider.adminEnableUser(params, (err, users) => {
                 if(err) {
-                    reject(err);
+                    reject({statusCode: 400, message: 'Error enabling user'});
                 } else {
                     resolve(users);
                 }
@@ -59,7 +59,7 @@ exports.activateUserFromAdmin = (data) => {
         } else {
             cognitoidentityserviceprovider.adminDisableUser(params, (err, users) => {
                 if(err) {
-                    reject(err);
+                    reject({statusCode: 400, message: 'Error disabling user'});
                 } else {
                     resolve(users);
                 }
@@ -68,10 +68,9 @@ exports.activateUserFromAdmin = (data) => {
     });
 };
 
-exports.addConnectionInfo = (event, email) => {
-    console.log("Event in connection =========> " + event);
-    console.log("Event in connection =========> " + JSON.stringify(event.headers));
+exports.addConnectionInfo = (event) => {
     const body = JSON.parse(event.body);
+    
     const params = {
         TableName: table,
         Item: {
@@ -82,6 +81,5 @@ exports.addConnectionInfo = (event, email) => {
             "connected_at": new Date().toISOString()
         }
     };
-
     return docClient.put(params).promise();
 }
