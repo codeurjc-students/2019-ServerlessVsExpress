@@ -29,7 +29,7 @@ const generatePdf = (data) => {
         Bucket : process.env.PDF_BUCKET_NAME
     };
 
-    console.log(`Uploading pdf with name: ${params.Key}`);
+    //console.log(`Uploading pdf with name: ${params.Key}`);
     return S3.upload(params).promise();
 };
 

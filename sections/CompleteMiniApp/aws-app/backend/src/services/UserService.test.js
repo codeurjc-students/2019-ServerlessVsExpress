@@ -24,11 +24,9 @@ jest.mock('aws-sdk', () => {
     )};
 
     const mockedConfig = {
-        //update: (jest.requireActual('aws-sdk')).config.update({region: 'eu-west-2', endpoint: 'https://dynamodb.eu-west-2.amazonaws.com'})
         update: jest.fn()
     };
     return {
-        //...(jest.requireActual('aws-sdk')),
         CognitoIdentityServiceProvider: jest.fn(() => mockedCognitoIdentityServiceProvider),
         DynamoDB: mockedDynamoDB,
         config: mockedConfig
