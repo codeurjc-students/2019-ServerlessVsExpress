@@ -1,0 +1,39 @@
+{
+  "name": "nodejs-express-app-backend",
+  "version": "1.0.0",
+  "description": "App to test users management in node.js and express using okta as authentication server",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server-start.js",
+    "test": "jest --config=jest.config.js --verbose",
+    "test:watch": "jest --watch"
+  },
+  "author": "Francisco Robles",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "amqplib": "^0.5.5",
+    "bcrypt": "^3.0.7",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "html-pdf": "^2.2.0",
+    "http": "0.0.0",
+    "http-errors": "^1.7.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.0",
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.2",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "dotenv": "^8.2.0",
+    "jest": "^25.1.0",
+    "jest-express": "^1.11.0",
+    "jest-when": "^2.7.0",
+    "mockingoose": "^2.13.2",
+    "node-mocks-http": "^1.8.1"
+  }
+}

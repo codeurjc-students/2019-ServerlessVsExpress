@@ -1,0 +1,69 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+    UsersConnectionInfoFunction:
+        # This resource creates a Lambda function.
+        Type: 'AWS::Serverless::Function'
+        Properties:
+            # This function uses the Nodejs v10.x runtime.
+            Runtime: nodejs10.x
+            # This is the Lambda function's handler.
+            Handler: connection.connectionDbHandler
+            Layers:
+                - !Ref ModulesLayer1
+            # The location of the Lambda function code.
+            CodeUri: ../src/
+            Events:
+                addConectionInfo:
+                    # Define an API Gateway endpoint that responds to HTTP GET at /users
+                    Type: Api
+                    Properties:
+                        Path: /addConnectionInfo
+                        Method: POST
+            Policies:
+                # Policies to allow the execution of the indicated actions to the table described in Resource
+                - DynamoDBCrudPolicy:
+                    TableName:
+                        Ref: UsersConnectionTable
+    
+    UsersConnectionInfoFunctionOptions:
+        # This resource creates a Lambda function.
+        Type: 'AWS::Serverless::Function'
+        Properties:
+            Runtime: nodejs10.x
+            Handler: connection.connectionDbHandlerOptions
+            Layers:
+                - !Ref ModulesLayer1
+            CodeUri: ../src/
+            Events:
+                addConectionInfoOptions:
+                    Type: Api
+                    Properties:
+                        Path: /addConnectionInfo
+                        Method: OPTIONS
+    
+    
+    # Table used to save information about the user connected, for example, its userAgent or acceptedLanguage
+    UsersConnectionTable:
+        Type: 'AWS::DynamoDB::Table'
+        Properties:
+            TableName: users_connection
+            AttributeDefinitions:
+                -   AttributeName: users_connection_id
+                    AttributeType: S
+            KeySchema:
+                -   AttributeName: users_connection_id
+                    KeyType: HASH
+            ProvisionedThroughput:
+                ReadCapacityUnits: 5
+                WriteCapacityUnits: 5
+
+    ModulesLayer1:
+        Type: AWS::Serverless::LayerVersion
+        Properties:
+            LayerName: sam-app-dependencies
+            Description: Dependencies for sam app
+            ContentUri: ../lambda-layers/
+            CompatibleRuntimes:
+                - nodejs10.x
+            LicenseInfo: 'MIT'
+            RetentionPolicy: Retain

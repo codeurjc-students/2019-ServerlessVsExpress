@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Complete MiniApp to test the capabilities of AWS Serverless services
+Resources:
+  UsersManagementResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/0e5b344b414f72ec4d167abc58b85c94.template
+  DatabaseResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/6a095426e6a7a3bb352ef3c17422eaff.template
+  PdfQueueResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/1fb95eee35d6930487dbf0780727ab11.template
+      Parameters:
+        pdfBucketName: complete-miniapp-pdf-bucket
+  WebsocketsResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: https://s3.eu-west-2.amazonaws.com/complete-mini-app-bucket/87788b1c89c1cfeddd0b72d706e7f434.template
+      Parameters:
+        websocketsTableName: websockets_table
+        webSocketApiName: WebSocketApi

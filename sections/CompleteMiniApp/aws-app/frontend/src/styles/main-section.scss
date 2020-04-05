@@ -1,0 +1,141 @@
+button:focus {outline:0;}
+
+.main-container {
+    width: 100%;
+}
+
+.header-section {
+    height: 50px;
+    background: #E50914;
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    width: 100%;
+    -webkit-box-shadow: 0px 13px 30px 0px rgba(158,158,158,1);
+    -moz-box-shadow: 0px 13px 30px 0px rgba(158,158,158,1);
+    box-shadow: 0px 13px 30px 0px rgba(158,158,158,1);
+    border-bottom: 2px solid #ff0000;
+    ul {
+        list-style: none;
+        width: 70%;
+        li, a, a:visited {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
+            margin-left: 15px;
+        }
+        :first-child {
+            margin-left: 0;
+        }
+        a:hover {
+            color: #efefef;
+        }
+    }
+}
+
+.user-section {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+    width: 30%;
+    padding-right: 15px;
+    .button-logout {
+        background: none;
+        margin-left: 15px;
+        border: none;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+        :hover {
+            color: #efefef;
+        }
+    }
+    .top-navigator-email {
+        margin-left: 30px;
+    }
+}
+
+.home-content {
+    width: calc(100% - 30px);
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.users-content {
+    width: calc(100% - 30px);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    .usersTable {
+        width: 100%;
+    }
+
+    .btn-activate-user {
+        background: none;
+        border: none;
+        color: #5454bb;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .title-users-table {
+        width: 93%;
+        float: left;
+    }
+
+    .btn-print-pdf {
+        width: 7%;
+        float: left;
+        padding: 3px;
+        background: #e50814;
+        color: white;
+        font-size: 12px;
+        cursor: pointer;
+        border: 1px solid #bd0812;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        margin-bottom: 3px;
+        .title-btn-print-pdf {
+            margin-left: 5px;
+            flex: 1;
+        }
+    }
+
+    .btn-print-pdf:hover {
+        background: #bd0812;
+    }
+}
+
+.alert-admins {
+    color: rgb(30, 70, 32);
+    background-color: rgb(237, 247, 237);
+    position: absolute;
+    right: 2px;
+    top: 52px;
+    border-radius: 0px !important;
+    border-bottom: 4px solid #e50814;
+    -webkit-box-shadow: 0px 13px 24px 2px rgba(184,180,184,1) !important;
+    -moz-box-shadow: 0px 13px 24px 2px rgba(184,180,184,1) !important;
+    box-shadow: 0px 13px 24px 2px rgba(184,180,184,1) !important;
+    z-index: 15;
+    .MuiAlert-action {
+        display: initial;
+    }
+    .connected-admin-email {
+        color: #545454;
+    }
+
+    ul:first-child {
+        margin-left: 0;
+    }
+    li {
+        margin-left: 0 !important;
+    }
+}

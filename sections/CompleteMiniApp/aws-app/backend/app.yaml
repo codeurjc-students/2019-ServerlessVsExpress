@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Complete MiniApp to test the capabilities of AWS Serverless services
+
+Resources:
+  UsersManagementResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./aws/users-management.yaml
+
+  DatabaseResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./aws/database.yaml
+
+  PdfQueueResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./aws/queue-sqs.yaml
+      Parameters:
+        pdfBucketName: 'complete-miniapp-pdf-bucket'
+
+  WebsocketsResources:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./aws/websockets.yaml
+      Parameters:
+        websocketsTableName: 'websockets_table'
+        webSocketApiName: 'WebSocketApi'

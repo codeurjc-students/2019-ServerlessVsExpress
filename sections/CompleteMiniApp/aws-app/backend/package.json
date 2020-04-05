@@ -1,0 +1,22 @@
+{
+    "name": "backend-complete-mini-app-aws-lambda",
+    "version": "1.0.0",
+    "description": "Complete Mini App AWS Backend.",
+    "license": "Apache-2.0",
+    "scripts": {
+        "deploy-complete": "npm run create-bucket && npm run sam-package && npm run sam-deploy",
+        "create-bucket": "aws s3api create-bucket --bucket complete-mini-app-bucket --create-bucket-configuration LocationConstraint=eu-west-2",
+        "sam-package": "sam package --template-file app.yaml --s3-bucket complete-mini-app-bucket --output-template-file packaged-template.yaml",
+        "sam-deploy": "sam deploy --template-file packaged-template.yaml --stack-name complete-miniapp-stack --capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND --debug",
+        "sam-delete-stack": "aws cloudformation wait stack-delete-complete --stack-name complete-miniapp-stack && aws s3 rb s3://complete-mini-app-bucket --force",
+        "test": "jest --config=jest.config.js --verbose",
+        "test:watch": "jest --watch"
+    },
+    "devDependencies": {
+        "aws-sdk": "^2.643.0",
+        "jest": "^25.1.0"
+    },
+    "dependencies": {
+        "pdfkit": "^0.11.0"
+    }
+}
