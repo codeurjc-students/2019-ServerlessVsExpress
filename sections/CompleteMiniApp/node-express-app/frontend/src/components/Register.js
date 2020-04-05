@@ -57,13 +57,13 @@ class Register extends Component {
     }
 
     doRegister = () => {
-        let {email, password, firstName, lastName} = this.state;
+        let {email, password, password2, firstName, lastName} = this.state;
 
-        this.props.register({email, password, firstName, lastName});
+        this.props.register({email, password, password2, firstName, lastName});
     }
 
     render() {
-        let {loading, errorRegister, setErrorRegisterFalse, registeredSuccessfully} = this.props;
+        let {loading, errorRegister, errorMessage, setErrorRegisterFalse, registeredSuccessfully} = this.props;
 
         if(registeredSuccessfully) {
             return <Redirect to='/activation-message'/>;
@@ -163,7 +163,7 @@ class Register extends Component {
                             <SnackbarWrapper
                                 variant={errorRegister ? 'error' : 'success'}
                                 className=''
-                                message={errorRegister ? "Email already exists!" : "Registered successfully!"}
+                                message={errorRegister ? errorMessage : "Registered successfully!"}
                                 show={errorRegister || registeredSuccessfully}
                                 handleClose={setErrorRegisterFalse}
                             />
@@ -191,6 +191,7 @@ const mapStateToProps = (state /*, ownProps*/) => {
     return {
         loading: state.register.loading,
         errorRegister: state.register.errorRegister,
+        errorMessage: state.register.errorMessage,
         registeredSuccessfully: state.register.registeredSuccessfully
     }
 };

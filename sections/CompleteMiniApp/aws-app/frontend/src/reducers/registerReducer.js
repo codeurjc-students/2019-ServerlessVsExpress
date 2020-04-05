@@ -11,6 +11,7 @@ const initialState = {
     loading: false,
     user: false,
     errorRegister: false,
+    errorMessage: '',
     redirectLogin: false,
     registeredSuccessfully: false
 };
@@ -34,7 +35,8 @@ export default function register(state = initialState, action = {}) {
             return {
                 ...state,
                 loading: action.loading,
-                errorRegister: action.errorRegister
+                errorRegister: action.errorRegister,
+                errorMessage: action.errorMessage
             };
         case ERROR_DISMISS_REGISTER:
             return {
