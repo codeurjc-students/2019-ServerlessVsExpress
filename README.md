@@ -62,5 +62,5 @@ Comparative between serverless stacks (AWS Lambda) and Express in Node.js to cre
 - [x] **Complete Mini App using all the features above (+ testing)**
     * Creation of a complete small app using all the features above in both stacks, also adding tests for both implementations.
         1. [Comparative](sections/CompleteMiniApp)
-        2. [Complete Miniapp Node.js + Express](sections/CompleteMiniApp/node-express-app)
-        3. [Complete Miniapp Node.js + Express](sections/CompleteMiniApp/aws-app)
+        2. [Complete Miniapp with Node.js + Express](sections/CompleteMiniApp/node-express-app)
+        3. [Complete Miniapp with AWS](sections/CompleteMiniApp/aws-app)
