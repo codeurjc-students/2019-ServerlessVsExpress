@@ -285,24 +285,53 @@ The process of creating the whole app with this stack has been longer (but not h
 ### AWS Lambda + AWS Stack
 In this case, it has been harder to achieve the same goals. As you know, in this project we have been using **AWS SAM** templates to generate the main structures of our stack and connect/configure them. The problem came when i wanted to re-use this templates. I needed to do some research and found something called **"Nested Applications"**, which consisted on handling each of the templates/resources as separated applications. Doing this, we would be able to create a parent template to orchestrate everything from the top to the bottom, passing even custom parameters if it was needed. Here, you can see the folder structure for the templates, and the parent template:
 
-  Folder structure (aws folder):
+  **Folder structure (aws folder):**
   <p align="center">
     <img alt="AWS SAM folder structure" src="./aws-app/img/aws-sam-structure.png">
   </p>
 
-  Parent template (app.yaml):
-  <p align="center">
-    <img alt="AWS SAM parent template" src="./aws-app/img/aws-sam-parent-template.png">
-  </p>
+  **Parent template (app.yaml):**
+  
+  ```yml
+  AWSTemplateFormatVersion: '2010-09-09'
+  Transform: AWS::Serverless-2016-10-31
+  Description: Complete MiniApp to test the capabilities of AWS Serverless services
+
+  Resources:
+    UsersManagementResources:
+      Type: AWS::Serverless::Application
+      Properties:
+        Location: ./aws/users-management.yaml
+
+    DatabaseResources:
+      Type: AWS::Serverless::Application
+      Properties:
+        Location: ./aws/database.yaml
+
+    PdfQueueResources:
+      Type: AWS::Serverless::Application
+      Properties:
+        Location: ./aws/queue-sqs.yaml
+        Parameters:
+          pdfBucketName: 'complete-miniapp-pdf-bucket'
+
+    WebsocketsResources:
+      Type: AWS::Serverless::Application
+      Properties:
+        Location: ./aws/websockets.yaml
+        Parameters:
+          websocketsTableName: 'websockets_table'
+          webSocketApiName: 'WebSocketApi'
+  ```
 
 There was also a problem with some node.js modules. When packaging and deploying the app, some of the node modules weren't being uploaded along with the lambda functions. To solve this, i found out that there was a nice feature called **"lambda layers"**. Creating a new folder, and inside this one, a folder with the name **"nodejs"** (this is required), and creating there its own package.json with the modules we need, we can specify in each function the modules (layer) we want our lambda to work with. Here, you can see an example:
 
-  Folder structure (lambda-layers folder):
+  **Folder structure (lambda-layers folder):**
   <p align="center">
     <img alt="AWS lambda layers folder" src="./aws-app/img/aws-lambda-layers-folder.png">
   </p>
 
-  Lambda layer in a function (database.yaml):
+  **Lambda layer in a function (database.yaml):**
   <p align="center">
     <img alt="AWS lambda layer" src="./aws-app/img/aws-lambda-layer.png">
   </p>
@@ -315,3 +344,6 @@ Having this into account, and knowing that all this happened because i still nee
 
 ### Summary
 AWS provides almost all the necessary services to create large scale applications. The learning curve can be a bit hard at the begining, but once you start to understand how the services flow works, you will be able to create complicated this in less steps than with the Non-serverless stack. Of course, with Node.js + Express you can customize the entire flow, while AWS would be like a black box. You can imagine how it works, but you don't need to go too deep. And this doesn't mean that it will limit you! Indeed, they provide a really huge amount of functionalities that in certain cases, will be handy. For Node.js + Express stack there is more documentation, but if you search enough, you will mostly find everything for AWS too, as it is getting more affluence of people every day. If you want to learn Serverless and in general, cloud stacks, it is definitely a good choice.
+
+Extra: 
+[Demostrative video](https://youtu.be/V4CjZ1vMYS4)
