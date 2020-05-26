@@ -117,7 +117,7 @@ Most of the File System operations can be done **synchronously** and **asynchron
 ##### DELETE endpoint
 1. To delete a file **asynchronously**:
 
-    **Method**: POST <br/>
+    **Method**: DELETE <br/>
     **Route:** http://localhost:3000/async/delete <br/>
     **Body parameters:** <br/>
      ```json
@@ -201,8 +201,8 @@ Now that you have your **Invoke Url** available, let's try all the endpoints:
 ##### PUT endpoint
 1. To update a file, we need the same body we used in the POST request
 
-    **Method**: POST <br/>
-    **Route:** INVOKE_URL/writeFile <br/>
+    **Method**: PUT <br/>
+    **Route:** INVOKE_URL/updateFile <br/>
     **Body parameters:** <br/>
      ```json
      {
@@ -214,7 +214,7 @@ Now that you have your **Invoke Url** available, let's try all the endpoints:
 ##### DELETE endpoint
 1. To delete a file/object from our bucket, we just need the fileName in our path param:
 
-    **Method**: GET <br/>
+    **Method**: DELETE <br/>
     **Route:** INVOKE_URL/deleteFile/{yourfile.extension} <br/>
     **Body parameters:** none <br/>
 
