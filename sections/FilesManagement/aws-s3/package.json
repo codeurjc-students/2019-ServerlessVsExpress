@@ -9,6 +9,6 @@
   "author": "Francisco Robles",
   "license": "Apache-2.0",
   "dependencies": {
-    "aws-sdk": "^2.570.0"
+    "aws-sdk": "^2.814.0"
   }
 }
