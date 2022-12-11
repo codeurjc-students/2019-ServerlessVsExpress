@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "amqplib": "^0.5.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "html-pdf": "^2.2.0"
   }
 }
